@@ -1,0 +1,212 @@
+<?xml version="1.0"?>
+<project 
+	xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.patrodyne</groupId>
+	<artifactId>patrodyne-site-demo</artifactId>
+	<packaging>jar</packaging>
+	<version>1.0.0</version>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<patrodyne.home>${basedir}/../../patrodyne.github.com</patrodyne.home>
+		<site.home>${patrodyne.home}/sites/site-demo</site.home>
+	</properties>
+
+	<name>Patrodyne Site Demo</name>
+	<url>http://patrodyne.org/sites/site-demo</url>
+	<inceptionYear>2011</inceptionYear>
+
+	<description>Demonstration of using Patrodyne's site skin to build a Maven project site.</description>
+
+	<organization>
+		<name>Patrodyne</name>
+		<url>http://patrodyne.org</url>
+	</organization>
+
+	<licenses>
+		<license>
+			<name>LGPL v3</name>
+			<distribution>repo and manual</distribution>
+			<url>http://www.gnu.org/licenses/lgpl-3.0-standalone.html</url>
+		</license>
+	</licenses>
+
+	<scm>
+		<connection>scm:git:git://github.com/patrodyne/patrodyne-site-demo.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com:patrodyne/patrodyne-site-demo.git</developerConnection>
+		<url>https://github.com/patrodyne/patrodyne-site-demo/blob/master</url>
+	</scm>
+
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/patrodyne/patrodyne-site-demo/issues</url>
+	</issueManagement>
+
+	<developers>
+		<developer>
+			<id>patrodyne</id>
+			<name>Rick</name>
+			<email>rick.osullivan@patrodyne.org</email>
+			<url>http://patrodyne.org</url>
+			<organization>Patrodyne</organization>
+			<organizationUrl>http://patrodyne.org</organizationUrl>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>-5</timezone>
+		</developer>
+	</developers>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>3.0</version>
+					<configuration>
+						<locales>en</locales>
+						<outputDirectory>${site.home}</outputDirectory>
+						<generateProjectInfo>true</generateProjectInfo>
+						<generateSitemap>true</generateSitemap>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-project-info-reports-plugin</artifactId>
+					<version>2.4</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-changelog-plugin</artifactId>
+					<version>2.2</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<configuration>
+					<reportPlugins>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-project-info-reports-plugin</artifactId>
+							<reportSets>
+								<reportSet>
+									<reports>
+										<report>issue-tracking</report>
+										<report>license</report>
+										<report>plugin-management</report>
+										<report>plugins</report>
+										<report>scm</report>
+										<report>summary</report>
+									</reports>
+								</reportSet>
+							</reportSets>
+						</plugin>
+
+						<!--
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-changelog-plugin</artifactId>
+						</plugin>
+						-->
+
+					</reportPlugins>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>FilterSite</id>
+						<phase>site</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<copy 
+									file="src/site/templates/css/site.css"
+									toFile="${site.home}/css/site.css"
+									overwrite="true"
+								>
+									<filterset>
+										<filtersfile file="src/site/properties/css/ColorScheme-9BE893.properties"/>
+									</filterset>
+								</copy>
+							</target>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>TweakSite</id>
+						<phase>site</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<fixcrlf srcdir="${site.home}" includes="**/*.html" eol="lf"/>
+							</target>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>CleanSite</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<delete dir="${site.home}" defaultexcludes="true" includeemptydirs="true"/>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+				<inherited>true</inherited>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<archive>
+						<manifest/>
+						<manifestEntries>
+							<Created-By>Patrodyne</Created-By>
+							<Built-By>Patrodyne</Built-By>
+							<url>http://patrodyne.org</url>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
+<!-- vi:set tabstop=4 hardtabs=4 shiftwidth=4: -->
