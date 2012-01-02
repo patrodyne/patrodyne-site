@@ -1,0 +1,327 @@
+{{{http://patrodyne.org/sites/site-demo/}Site Demo}}
+
+	Reference: {{{http://maven.apache.org/guides/mini/guide-site.html}Maven Site Mini-Guide}}
+
+	Let's look at a demonstration of a Maven project using the Patrodyne Site
+	Skin, in detail. The <<<pom.xml>>> at the project root is a signature of any
+	Maven project. The web page index is a convenient link to the site pages,
+	more on that below. Next, we see a <<<src>>> folder containing all of the
+	<<<site>>> files. Typically, the <<<src>>> folder contains two folders for
+	Java source code, <<<main>>> and <<<test>>>; but, because the <<<maven-site-plugin>>>
+	does not need these ubiquitous folders to generate a project web site, we will omit
+	them from this demo.
+	
++------------------------------------------------
+patrodyne-site/demo
+|-- index.html
+|-- pom.xml
+|-- src
+|   `-- site
+|       |-- apt
+|       |   |-- index.apt
+|       |   `-- Todo.apt
+|       |-- fml
+|       |   `-- faq.fml
+|       |-- properties
+|       |   `-- css
+|       |       `-- ColorScheme-9BE893.properties
+|       |-- resources
+|       |   `-- images
+|       |       `-- logos
+|       |           |-- SiteDemo.png
+|       |           `-- SiteDemo.txt
+|       |-- site.xml
+|       `-- templates
+|           `-- css
+|               `-- site.css
++------------------------------------------------
+
+* {POM}: {{{https://github.com/patrodyne/patrodyne-site/blob/master/demo/pom.xml}pom.xml}}
+
+	The <<Project Object Model>> is an XML file that contains information about
+	the project and configuration details used by Maven to build the project. The
+	<Site Demo> includes elements for a more informative web site:
+
+	* groupId - a unique name for your self or organization, for example: your domain name.
+
+	* artifactId - the name of your project.
+
+	* packaging - The type of project: jar, war, pom, etc.
+
+	* version - The project version, for example: 1.0.0.
+
+	* properties - Name value pairs for use throughout this or any child POMs.
+
+	* name - A conversational name for your project.
+
+	* url - This lets users know where the project lives.
+
+	* inceptionYear - The <<<maven-site-plugin>>> uses this in the copyright.
+
+	* description - A brief explanation of your project.
+
+	* organization - Basic information about your organization.
+
+	* licenses - Only list the licenses that may apply <directly> to this project.
+
+	* scm - Software Configuration Management, for example: GitHub links.
+
+	* issueManagement - defines the defect tracking system: GitHub, Bugzilla, etc.
+
+	* developers - only list people that are immediately responsible for the code.
+
+	* build - directs Maven how to create your project artifact and site.
+
+		* pluginManagement - centralized location for plugin version information:
+
+			* org.apache.maven.plugins, maven-site-plugin, 3.0
+
+			* org.apache.maven.plugins, maven-project-info-reports-plugin, 2.4
+
+			* org.apache.maven.plugins, maven-changelog-plugin, 2.2
+
+		* plugins - declare which plugins to use in the build:
+
+			* maven-site-plugin
+			
+				This plugin generates a site for the project using reports configured
+				within.
+				
+				Look back to the <<<pluginManagement>>> configuration for this plugin to
+				observe the output directory is set to the value of the <<<$site.home>>>
+				property. That property is set in the <<<properties>>> section. It outputs
+				the site to a folder in another project, a GitHub user (organization)
+				project. We do this to centralize our sites under one GitHub repository.
+				You can set <<<$site.home>>> property to a location to suit your deployment
+				strategy.
+				
+				* maven-project-info-reports-plugin
+			
+					In Maven 3, the <<<reporting>>> and <<<reportSets>>> sections have been
+					deprecated (they won't cause an error with Maven 3, they will just be
+					ignored), and have been replaced by a <<<reportPlugins>>> section in the
+					configuration block of the <<<maven-site-plugin>>> itself.
+				
+					For available reports, see {{{http://maven.apache.org/plugins/maven-project-info-reports-plugin/}Maven Project Info Reports Plugin}}
+
+				* maven-changelog-plugin
+			
+					The {{{http://maven.apache.org/plugins/maven-changelog-plugin/}Maven
+					Changelog Plugin}} generates reports regarding the recent changes in your
+					Software Configuration Management or SCM. These reports include:
+					
+					* the changelog report,
+					
+					* developer activity report,
+					
+					* file activity report.
+					
+			* maven-antrun-plugin
+			
+				Executing an {{{http://ant.apache.org/manual/}Ant}} task is a powerful way
+				to enhance how a site is generated.
+				
+				<<FilterSite>>, we use the <<<copy>>> task with a <<<filterset>>> to copy
+				<<<src/site/templates/css/site.css>>> to <<<$site.home/css/site.css>>>, at
+				the same time, resolving color scheme properties provided by
+				<<<src/site/properties/css/ColorScheme-9BE893.properties>>>. You can use
+				other color schemes described at {{{./ColorSchemes.html}Color Schemes}} or
+				create your own. This is an optional task, the default color scheme is
+				F6D09C.
+				
+				Important: Because <<<site.css>>> is generated from a template, your
+				changes, if any, should be made to your project's copy of
+				<<<src/site/templates/css/site.css>>>.
+				
+				<<TweakSite>> is a task to normalize the end-of-line characters in the
+				generated pages. It is an optional task.
+				
+				<<CleanSite>> is executed when you do a <<<mvn clean>>> or <<<mvn clean
+				site>>>. It deletes the generated web site.
+
+			* maven-compiler-plugin
+			
+				The {{{http://maven.apache.org/plugins/maven-compiler-plugin/}Maven
+				Compiler Plugin}} is used to compile the sources of your project. The
+				default compiler is javac and is used to compile Java sources. The default
+				source setting is 1.5 and the default target setting is 1.5.
+				
+				We include this plugin to set the default source/target settings to use
+				Java 6; perhaps, it is time to bump that up to 1.7?
+				
+			* maven-jar-plugin
+			
+				The {{{http://maven.apache.org/plugins/maven-jar-plugin/}Maven Jar Plugin}}
+				provides the capability to build and sign jars.
+				
+				We include this plugin to set the jar's manifest entries; but, this is
+				quite optional.
+
+* {Index}: {{{https://github.com/patrodyne/patrodyne-site/blob/master/demo/index.html}index.html}}
+
+	At the base of our project is a simple <<<index.html>>> page to redirect a
+	browser to the actual location for the site pages. In this case, the
+	redirection is to a nearby project on our file system,
+	<<<../../patrodyne.github.com/sites/site-demo/index.html>>>. The site location
+	for the demo is determined by a setting in the <<<pom.xml>>>. You can change
+	this setting to a folder in the Site Demo project, say <<<$basedir/site>>>
+	or anywhere else that suits your fancy.
+	
+	At Patrodyne, we prefer to deploy all of our project sites under
+	<<<patrodyne.github.com>>> which is sync'ed to our user (organization) page on
+	<GitHub>. When deployed, this <<<index.html>>> <is not used>, we use it only
+	during development, as a convenience link.
+	
+	Hints:
+	
+	* Our <GitHub> user page {{{http://patrodyne.org}Patrodyne}} configures its
+	{{{https://github.com/patrodyne/patrodyne.github.com/blob/master/index.html}index.html}}	
+	to redirect to a relative URL, <<<site/index.html>>>. This redirection <is
+	used> when you browser to our site on the web. It allows that project to put
+	its site in a dedicated folder and cleanly separate the project's source and build
+	files from the site folder.
+	
+	* Our <GitHub> user page has another folder <<<sites>>> with our other project
+	sites. We prefer to centralize our projects on our main page instead of using
+	<GitHub>'s per-project <<<gh-pages>>> branch method.
+	
+	* Reference: {{{http://pages.github.com/}GitHub Pages}}
+
+** {Site}: {{{https://github.com/patrodyne/patrodyne-site/blob/master/demo/src/site/site.xml}src/site/site.xml}}
+
+	A {{{http://maven.apache.org/guides/mini/guide-site.html#Creating_a_Site_Descriptor}Maven Site Descriptor}} 
+	is a XML file used by the {{{http://maven.apache.org/plugins/maven-site-plugin/}Maven Site Plugin}} to
+	configure the layout of a site.
+
+	* skin - This is where you can specify a custom skin. A skin is JAR
+	that contains style sheets and other resources used to change the way a site
+	looks. <<To configure the site plugin to use Patrodyne's skin:>>
+	
+		* groupId = <<<org.patrodyne>>>
+		
+		* artifactId = <<<patrodyne-site-skin>>>
+		
+		* version = <<<1.0.0>>>
+	
+	* bannerLeft - Puts an image in the top left of each page. Typically, this is
+	your logo. You can name alternate text and add a hyper-reference to your home
+	page.
+	
+	* bannerRight - <<The Patrodyne skin usurps the right banner to display a
+	{{{http://flattr.com/}Flattr}} button;>> because, your good efforts should be
+	rewarded! <Be sure to replace our Flattr id with yours or we'll receive your
+	flattery!>
+	
+		* name = <<<FlattrCounterLarge | FlattrCounterCompact | FlatterStatic>>>
+		
+		* src = <<<http://api.flattr.com/button/flattr-badge-large.png>>>
+		
+		* href = <<<!!!Your Flattr link!!!>>>
+		
+		* alt = <<<!!!Your Home Page!!!>>>
+	
+	* poweredBy - Puts one or more logos with links to resources used to power
+	your site. This is where you can give credit where credit due. For example,
+	{{{./images/logos/PoweredByPatrodyneSiteSkin.png}Powered By Patrodyne Site Skin}}.
+	
+	* body - refers to the entire area below the banner. The body contains two
+	columns: left column and body column.
+	
+		* links - Puts one or more URLs in the thin band below the banner, on the
+		right side. The demo puts a link to our {{{http://maven.apache.org/plugins/maven-site-plugin/site-mojo.html#generateSitemap}site map}} here.
+		
+		* menu - Refers to the navigation menu in the left column of the body area.
+		
+			* Overview - In the demo, this places an sample menu with nested items.
+			
+			* Reports - A special <reference> used to insert menu items generated by the {{{http://maven.apache.org/plugins/maven-project-info-reports-plugin/}Maven Project Info Reports Plugin}}.
+			
+			* PoweredBy - Places a title above the <powered by> logos.
+
+** {APT}: {{{https://github.com/patrodyne/patrodyne-site/tree/master/demo/src/site/apt}src/site/apt}}
+
+	{{{http://maven.apache.org/doxia/references/apt-format.html}Almost Plain
+	Text (APT)}} is the easiest way to add content to your project's web site. APT is a
+	<lightweight> markup language that uses simple punctuation conventions to
+	generate web pages.
+	
+	The {{{http://maven.apache.org/plugins/maven-site-plugin/}Maven Site Plugin}}
+	scans the <<<apt>>> folder and any sub-folders for <<<*.apt>>> documents. Each
+	document is transformed into a web page and saved in the corresponding
+	location of the generated site.
+	
+*** {APT Index}: {{{https://github.com/patrodyne/patrodyne-site/blob/master/demo/src/site/apt/index.apt}src/site/apt/index.apt}}
+
+	Generally, <<<index.html>>> is the default web page for any given folder. This
+	<<<index.apt>>> document is a demonstration page.
+
+*** {APT Todo}: {{{https://github.com/patrodyne/patrodyne-site/blob/master/demo/src/site/apt/Todo.apt}src/site/apt/Todo.apt}}
+
+	After writing your <<<index.apt>>> document, you can add any number of content pages to
+	describe and promote your work. This <<<todo.apt>>> list is example to get you started!!!
+
+** {FML}: {{{https://github.com/patrodyne/patrodyne-site/tree/master/demo/src/site/fml}src/site/fml}}
+
+	{{{http://maven.apache.org/doxia/references/fml-format.html}FAQ Markup
+	Language (FML)}} is another way to generate web pages. This language is
+	designed for answering frequently asked questions about your project. FML is
+	an XML document with elements geared to presenting information in a question and
+	answer format.
+	
+	The {{{http://maven.apache.org/plugins/maven-site-plugin/}Maven Site Plugin}}
+	scans the <<<fml>>> folder and any sub-folders for <<<*.fml>>> documents. Each
+	document is transformed into a web page and saved in the corresponding
+	location of the generated site.
+	
+*** {FAQ}: {{{https://github.com/patrodyne/patrodyne-site/blob/master/demo/src/site/fml/faq.fml}src/site/fml/faq.fml}}
+
+	This <<<faq.fml>>> document answers a couple of frequently asked questions about
+	Maven and serves as starting point for your own FAQ.
+
+** {Properties}: {{{https://github.com/patrodyne/patrodyne-site/tree/master/demo/src/site/properties}src/site/properties}}
+
+	This folder and its sub-folders contain property files for filtering
+	name-value pairs at build time.
+	
+*** {Color Scheme}: {{{https://github.com/patrodyne/patrodyne-site/blob/master/demo/src/site/properties/css/ColorScheme-9BE893.properties}src/site/properties/css/ColorScheme-9BE893.properties}}
+
+	The Patrodyne Site Skin uses a property file to bind color values to
+	<<<site.css>>>. The file is defined in the <<<pom.xml>>> as a <Ant> filter.
+	For <Ant>, a filter is a property substitution process associated with a task
+	like the <<<copy>>> task.
+	
+	The <Site Demo> uses a Color Scheme with a light green background (color code
+	#9BE893). Our convention is to name the property file after the background
+	color. We use an accented analogic color scheme where primary and
+	complimentary colors are at opposite positions (180 degrees) of the color
+	wheel and secondary colors are found at 30 degrees from either side of
+	the primary color.
+
+** {Resources}: {{{https://github.com/patrodyne/patrodyne-site/tree/master/demo/src/site/resources}src/site/resources}}
+
+	The contents of the resources folder are copied to the base of the site where
+	they can be referenced using hyper-links.
+
+*** {Site Demo Image}: {{{https://github.com/patrodyne/patrodyne-site/blob/master/demo/src/site/resources/images/logos/SiteDemo.png}src/site/resources/images/logos/SiteDemo.png}}
+
+	Typically, the <<<leftBanner>>> element of <<<site.xml>>> is used to display a
+	project logo. This image is the logo for the Site Demo.
+
+*** {Site Demo Text}: {{{https://github.com/patrodyne/patrodyne-site/blob/master/demo/src/site/resources/images/logos/SiteDemo.txt}src/site/resources/images/logos/SiteDemo.txt}}
+
+	We like to give credit to the services we use, <<<SiteDemo.txt>>> is a
+	citation for {{{http://cooltext.com/}CoolText}}. We use <CoolText> to create
+	many of our project logos.
+
+** {Templates}: {{{https://github.com/patrodyne/patrodyne-site/tree/master/demo/src/site/templates}src/site/templates}}
+
+	This folder and its sub-folders contain template files for merging
+	name-value pairs at build time.
+
+*** {Site CSS}: {{{https://github.com/patrodyne/patrodyne-site/blob/master/demo/src/site/templates/css/site.css}src/site/templates/css/site.css}}
+
+	This <<<site.css>>> is a template containing <Ant> property names. At build time, the
+	names are {{{http://ant.apache.org/manual/Types/filterset.html}filtered}} and
+	replaced with values from a property file specified in the <<<pom.xml>>>.
+
+~~ vi:set tabstop=4 hardtabs=4 shiftwidth=4:

@@ -1,0 +1,12 @@
+Configure site.xml
+
+	To use our skin in your project, add this declaration to your site.xml.
+
++-----------------------
+<skin>
+    <groupId>org.patrodyne</groupId>
+    <artifactId>patrodyne-site-skin</artifactId>
+    <version>1.0.0</version>
+</skin>
++-----------------------
+~~ vi:set tabstop=4 hardtabs=4 shiftwidth=4:

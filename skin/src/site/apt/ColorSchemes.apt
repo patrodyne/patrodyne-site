@@ -1,0 +1,78 @@
+Custom Color Scheme
+
+	Our skin is packaged with the standard cascading style sheets used by the
+	Maven site plugin; however, we modified the sheets to separate the color theme
+	from other structural values. The default color scheme is defined in
+	<<<maven-theme.css>>>.
+
++----------------------------
+patrodyne-site-skin-1.0.0.jar
+|-- css
+|   |-- maven-base.css
+|   |-- maven-theme.css
+|   `-- print.css
+|-- images
+`-- META-INF
+    `-- maven
+        `-- site.vm
++----------------------------
+
+	The Maven Site Plugin supports per-project customization using a sheet named
+	<<<site.css>>>. For our sites, we generate <<<site.css>>> by filtering a
+	template to resolve the color properties. In the layout below,
+	<<<templates/css/site.css>>> contains properties, such as
+	<<<@clr.primary-1@>>>. The syntax conforms to an Ant <<<filterset>>>. In this
+	example, we use <<<maven-antrun-plugin>>> to process the template using
+	properties contained in <<<properties/css/ColorScheme-90B9DB.properties>>>.
+	
+	The palette is an accented analogic color theme. This theme has four color
+	sets: a primary set, two secondary sets and a complementary set. Each set has
+	five colors of the same hue where the last two are lighter than the first
+	three. Generally, we use the lightest complement hue for our background
+	because it contrasts well with the primary and secondary colors. Each color
+	scheme file is named after the complement #5 hue.
+	
+	The properties and templates folders contain the files used to generate the
+	actual <<<site.css>>>, when the <<<mvn site>>> goal is executed.
+
++--------------------------------------------
+src
+`-- site
+    |-- apt
+    |   `-- index.apt
+    |-- fml
+    |   `-- faq.fml
+    |-- properties
+    |   `-- css
+    |       `-- ColorScheme-90B9DB.properties
+    |-- resources
+    |   |-- css
+    |   `-- images
+    |       `-- logos
+    |           `-- yourlogo.png
+    |-- site.xml
+    `-- templates
+        `-- css
+            `-- site.css
++--------------------------------------------
+
+
+Sample Color Palettes 
+
+	* ColorScheme-90B9DB.properties {{{./ColorScheme/90B9DB.html}More...}}
+
+	* ColorScheme-9BE893.properties {{{./ColorScheme/9BE893.html}More...}}
+
+	* ColorScheme-A796DE.properties {{{./ColorScheme/A796DE.html}More...}}
+
+	* ColorScheme-DC8CD9.properties {{{./ColorScheme/DC8CD9.html}More...}}
+
+	* ColorScheme-E3F39B.properties {{{./ColorScheme/E3F39B.html}More...}}
+
+	* ColorScheme-F69C9E.properties {{{./ColorScheme/F69C9E.html}More...}}
+
+	* ColorScheme-F6D09C.properties {{{./ColorScheme/F6D09C.html}More...}}
+
+	* ColorScheme-F6E79C.properties {{{./ColorScheme/F6E79C.html}More...}}
+
+~~ vi:set tabstop=4 hardtabs=4 shiftwidth=4:

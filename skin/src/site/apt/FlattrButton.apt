@@ -1,0 +1,24 @@
+Flattr Button
+
+
+	The <<<site.vm>>> in <<<patrodyne-site-skin-X.jar>>> is based on the Maven
+	standard but has been altered to easily include a
+	{{{http://flattr.com/}Flattr}} button. 
+
++-----------------------------------------------------------------
+<bannerRight>
+    <name>FlattrCounterCompact</name>
+    <src>http://api.flattr.com/button/flattr-badge-large.png</src>
+    <href>http://flattr.com/thing/NNNNNN/YourThing</href>
+    <alt>http://yourdomain/</alt>
+</bannerRight>
++-----------------------------------------------------------------
+
+	* name: <<<FlattrCounterLarge | FlattrCounterCompact | FlatterStatic>>>.
+	
+	* src: link to <Flattr this!> image.
+	
+	* href: link to your <Flattr> thing.
+	
+	* alt: link to your thing's home page.
+~~ vi:set tabstop=4 hardtabs=4 shiftwidth=4:

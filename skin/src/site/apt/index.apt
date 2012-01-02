@@ -1,0 +1,22 @@
+Overview
+
+	Patrodyne Site Skin is a custom skin for the 
+	{{{http://maven.apache.org/plugins/maven-site-plugin}Maven Site Plugin}}. If
+	you use Maven to build your project then, perhaps, you are using the site 
+	plugin to generate a project web site. If not, but you would like to build a
+	web site to describe your project, review the link above then come back here
+	and learn what our custom skin can do for you!
+	
+	Whether you are using or are planning to use the site plugin, our  skin
+	provides additional (and cool) customization options.
+	
+* Features
+	
+	* Configurable via site.xml. {{{./SiteXml.html}More...}}
+	
+	* Custom color scheme and sample palettes. {{{./ColorSchemes.html}More...}}
+ 
+	* Simple settings for font size and family stack. {{{./FontSizeAndFamily.html}More...}}
+ 
+	* Easily include a {{{http://flattr.com/}Flattr}} button in the banner. {{{./FlattrButton.html}More...}}
+~~ vi:set tabstop=4 hardtabs=4 shiftwidth=4:

@@ -1,0 +1,234 @@
+a {
+	text-decoration: none;
+}
+a.externalLink, a.externalLink:link, a.externalLink:visited, a.externalLink:active, a.externalLink:hover {
+	background: url(../images/external.png) right center no-repeat;
+	padding-right: 1.0em;
+}
+a.newWindow, a.newWindow:link, a.newWindow:visited, a.newWindow:active, a.newWindow:hover {
+	background: url(../images/newwindow.png) right center no-repeat;
+	padding-right: 1.0em;
+}
+acronym {
+	cursor: help;
+}
+body {
+	margin: 0.0em;
+	padding-top: 0.0em;
+	padding-bottom: 0.6em;
+	padding-left: 0.0em;
+	padding-right: 0.0em;
+}
+body, td, select, input, li {
+	font-size: 1.0em;
+}
+code, pre, tt {
+	font-size: 1.0em;
+}
+div.clear {
+	clear:both;
+	visibility: hidden;
+}
+div.clear hr {
+	display: none;
+}
+dl {
+	padding: 0.2em 0.2em 0.2em 0.4em;
+}
+h1 {
+	padding: 0.2em 0.2em 0.2em 0.4em;
+	font-size: 1.5em;
+	font-weight: bold;
+}
+h2 {
+	padding: 0.2em 0.2em 0.2em 0.4em;
+	font-size: 1.4em;
+	font-weight: bold;
+}
+h3 {
+	padding: 0.2em 0.2em 0.2em 0.4em;
+	font-size: 1.3em;
+	font-weight: bold;
+}
+h4 {
+	padding: 0.2em 0.2em 0.2em 0.4em;
+	font-size: 1.2em;
+	font-weight: bold;
+}
+h5 {
+	padding: 0.2em 0.2em 0.2em 0.4em;
+	font-size: 1.1em;
+	font-weight: bold;
+}
+img {
+	border: none;
+}
+p {
+	line-height: 1.3em;
+	font-size: 1.0em;
+}
+table {
+	padding: 0.0em;
+	width: 100%;
+	margin-left: -0.1em;
+	margin-right: -0.1em;
+	font-size: 0.8em;
+}
+table.bodyTable th, table.bodyTable td {
+	padding: 0.1em 0.2em 0.1em 0.2em;
+	vertical-align: top;
+}
+table.bodyTable th {
+	text-align: center;
+	font-weight: bold;
+}
+table.bodyTable th, table.bodyTable td {
+	font-size: 1.0em;
+}
+#banner {
+	padding: 0.0em;
+}
+#banner img {
+	border: none;
+}
+#bannerLeft, #bannerRight {
+	font-size: 1.4em;
+	font-weight: bold;
+}
+#bannerLeft img, #bannerRight img {
+	margin: 0.0em;
+}
+#breadcrumbs {
+	margin: 0.0em;
+	padding-top: 0.2em;
+	padding-bottom: 0.2em;
+	padding-left: 0.6em;
+	padding-right: 0.6em;
+	font-size: 0.9em;
+}
+#leftColumn {
+	float: left;
+	overflow: auto;
+	margin-top: 1.0em;
+	margin-left: 1.0em;
+	font-size: 0.8em;
+	width: 17.0em;
+}
+#bodyColumn {
+	margin-left: 15.0em;
+	margin-right: 1.5em;
+}
+#footer {
+	padding: 0.2em 0.6em 0.2em 0.6em;
+	font-size: 0.9em;
+}
+#legend {
+	padding: 0.4em 0 0.4em 0;
+}
+#legend li.externalLink {
+	background: url(../images/external.png) left top no-repeat;
+	padding-left: 1.0em;
+}
+#legend li.newWindow {
+	background: url(../images/newwindow.png) left top no-repeat;
+	padding-left: 1.0em;
+}
+#navcolumn {
+	padding: 0.4em 0.2em 0 0.4em;
+}
+#navcolumn h5 {
+	margin: 0.0em;
+	padding-top: 0.1em;
+	padding-bottom: 0.0em;
+	padding-left: 0.0em;
+	padding-right: 0.0em;
+	border: none;
+}
+#navcolumn ul {
+	margin: 0.0em;
+	padding: 0.0em;
+}
+#navcolumn li {
+	list-style-type: none;
+	list-style-position: outside;
+	background-image: none;
+	background-repeat: no-repeat;
+	background-position: 0.0em 0.4em;
+	padding-left: 1.0em;
+	line-height: 1.3em;
+}
+#navcolumn li.expanded {
+	background-image: url(../images/expanded.gif);
+}
+#navcolumn li.collapsed {
+	background-image: url(../images/collapsed.gif);
+}
+#navcolumn img {
+	margin-top: 0.6em;
+	margin-bottom: 0.2em;
+}
+#organizationLogo img, #projectLogo img, #projectLogo span {
+	margin: 0.5em;
+}
+#poweredBy {
+	text-align: center;
+	display: block;
+	margin-top: 1.2em;
+	margin-bottom: 1.0em;
+	margin-right: 1.2em;
+}
+#search img {
+	margin: 0.0em;
+	display: block;
+}
+#search #q, #search #btnG {
+	margin-bottom: 0.6em;
+}
+#search form {
+	margin: 0.0em;
+}
+#lastPublished {
+	font-size: 0.9em;
+}
+
+.donemark {
+	background-image: url(../images/icon_success_sml.gif);
+}
+.errormark, .warningmark, .donemark, .infomark {
+	background: url(../images/icon_error_sml.gif) no-repeat;
+}
+.infomark {
+	background-image: url(../images/icon_info_sml.gif);
+}
+.navSection {
+	margin-bottom: 0.1em;
+	padding: 0.4em;
+}
+.navSectionHead {
+	font-weight: bold;
+	font-size: 0.9em;
+}
+.section {
+	padding: 0.2em;
+}
+.source {
+	padding: 0.7em;
+	margin-top: 1.0em;
+	margin-bottom: 1.0em;
+	margin-left: 0.4em;
+	margin-right: 0.4em;
+}
+.source pre {
+	margin: 0.0em;
+	padding: 0.0em;
+}
+.warningmark {
+	background-image: url(../images/icon_warning_sml.gif);
+}
+.xleft, #bannerLeft img {
+	float:left;
+}
+.xright, #bannerRight {
+	float:right;
+}
+/* vi:set tabstop=4 hardtabs=4 shiftwidth=4: */

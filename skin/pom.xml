@@ -7,21 +7,21 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.patrodyne</groupId>
-	<artifactId>patrodyne-site-demo</artifactId>
+	<artifactId>patrodyne-site-skin</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0.0</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<patrodyne.home>${basedir}/../../patrodyne.github.com</patrodyne.home>
-		<site.home>${patrodyne.home}/sites/site-demo</site.home>
+		<site.home>${patrodyne.home}/sites/site-skin</site.home>
 	</properties>
 
-	<name>Patrodyne Site Demo</name>
-	<url>http://patrodyne.org/sites/site-demo</url>
+	<name>Patrodyne Site Skin</name>
+	<url>http://patrodyne.org/sites/site-skin</url>
 	<inceptionYear>2011</inceptionYear>
 
-	<description>Demonstration of using Patrodyne's site skin to build a Maven project site.</description>
+	<description>Patrodyne's skin for projects using Maven's site plugin.</description>
 
 	<organization>
 		<name>Patrodyne</name>
@@ -37,14 +37,14 @@
 	</licenses>
 
 	<scm>
-		<connection>scm:git:git://github.com/patrodyne/patrodyne-site-demo.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com:patrodyne/patrodyne-site-demo.git</developerConnection>
-		<url>https://github.com/patrodyne/patrodyne-site-demo/blob/master</url>
+		<connection>scm:git:git://github.com/patrodyne/patrodyne-site-skin.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com:patrodyne/patrodyne-site-skin.git</developerConnection>
+		<url>https://github.com/patrodyne/patrodyne-site-skin/blob/master</url>
 	</scm>
 
 	<issueManagement>
 		<system>GitHub</system>
-		<url>https://github.com/patrodyne/patrodyne-site-demo/issues</url>
+		<url>https://github.com/patrodyne/patrodyne-site-skin/issues</url>
 	</issueManagement>
 
 	<developers>
@@ -143,7 +143,7 @@
 									overwrite="true"
 								>
 									<filterset>
-										<filtersfile file="src/site/properties/css/ColorScheme-9BE893.properties"/>
+										<filtersfile file="src/site/properties/css/ColorScheme-F6D09C.properties"/>
 									</filterset>
 								</copy>
 							</target>
@@ -206,5 +206,6 @@
 			</plugin>
 		</plugins>
 	</build>
+
 </project>
 <!-- vi:set tabstop=4 hardtabs=4 shiftwidth=4: -->

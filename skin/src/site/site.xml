@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project 
+	name="Patrodyne Site Skin" 
+	xmlns="http://maven.apache.org/DECORATION/1.1.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/DECORATION/1.1.0 http://maven.apache.org/xsd/decoration-1.1.0.xsd"
+>
+	<skin>
+		<groupId>org.patrodyne</groupId>
+		<artifactId>patrodyne-site-skin</artifactId>
+		<version>1.0.0</version>
+	</skin>
+
+	<bannerLeft>
+		<name>Patrodyne Site Skin</name>
+		<src>images/logos/SiteSkin.png</src>
+		<href>http://patrodyne.org/</href>
+	</bannerLeft>
+
+	<bannerRight>
+		<name>FlattrCounterCompact</name>
+		<src>http://api.flattr.com/button/flattr-badge-large.png</src>
+		<href>http://flattr.com/thing/446287/Patrodyne</href>
+		<alt>http://patrodyne.org/</alt>
+	</bannerRight>
+
+	<poweredBy>
+		<logo name="Maven" href="http://maven.apache.org/" img="http://maven.apache.org/images/logos/maven-feather.png"/>
+		<logo name="GitHub" href="https://github.com/patrodyne/patrodyne-site/tree/master/skin" img="https://github.com/github/media/blob/master/logos/github_logo_social_coding_outlined.png?raw=true" width="90" height="30"/>
+		<logo name="Flattr" href="http://flattr.com/thing/446287/Patrodyne" img="http://api.flattr.com/button/flattr-badge-large.png"/>
+		<logo name="CoolText" href="http://cooltext.com" img="http://cooltext.com/images/ct_pixel.gif" width="80" height="15"/>
+		<logo name="LGPLv3" href="license.html" img="http://www.gnu.org/graphics/lgplv3-88x31.png"/>
+	</poweredBy>
+	
+	<body>
+		<!-- <head/> -->
+
+		<links>
+			<item name="sitemap" href="sitemap.html" />
+		</links>
+
+		<menu name="Overview">
+			<item name="Introduction" href="index.html" collapse="true">
+				<item name="Site XML" href="SiteXml.html"/>
+				<item name="Color Schemes" href="ColorSchemes.html"/>
+				<item name="Font Size and Family" href="FontSizeAndFamily.html"/>
+				<item name="Flattr Button" href="FlattrButton.html"/>
+			</item>
+			<item name="Demonstration" href="Demonstration.html" collapse="true">
+				<item name="POM" href="Demonstration.html#POM"/>
+				<item name="Index" href="Demonstration.html#Index"/>
+				<item name="Site" href="Demonstration.html#Site"/>
+				<item name="APT" href="Demonstration.html#APT" collapse="false">
+					<item name="Index" href="Demonstration.html#APT_Index"/>
+					<item name="Todo" href="Demonstration.html#APT_Todo"/>
+				</item>
+				<item name="FML" href="Demonstration.html#FML" collapse="false">
+					<item name="FAQ" href="Demonstration.html#FAQ"/>
+				</item>
+				<item name="Properties" href="Demonstration.html#Properties" collapse="false">
+					<item name="Color Scheme" href="Demonstration.html#Color_Scheme"/>
+				</item>
+				<item name="Resources" href="Demonstration.html#Resources" collapse="false">
+					<item name="Site Demo Image" href="Demonstration.html#Site_Demo_Image"/>
+					<item name="Site Demo Text" href="Demonstration.html#Site_Demo_Text"/>
+				</item>
+				<item name="Templates" href="Demonstration.html#Templates" collapse="false">
+					<item name="Site CSS" href="Demonstration.html#Site_CSS"/>
+				</item>
+			</item>
+			<item name="FAQ" href="faq.html"/>
+		</menu>
+
+		<menu ref="reports"/>
+
+		<menu name="Powered By"/>
+
+		<!-- <footer/> -->
+	</body>
+</project>
+<!-- vi:set tabstop=4 hardtabs=4 shiftwidth=4: -->

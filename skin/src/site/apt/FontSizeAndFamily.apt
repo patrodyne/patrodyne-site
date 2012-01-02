@@ -1,0 +1,63 @@
+Font Size and Family
+
+* Font Size
+
+	The <<<maven-base.css>>> in <<<patrodyne-site-skin-X.jar>>> is based on the
+	Maven standard but has been refactored to use <em> units for all size
+	attributes.	The <<<site.css>>> can be used to adjust the top level scaling by
+	re-defining the font size of the major visual components.
+	
+	The <em> is a scalable unit used in web document media. An <em> is
+	equal to the current font-size, for instance, if the font-size of the document
+	is <<<12pt>>>, <<<1em>>> is equal to <<<12pt>>>. <em>s are scalable in nature,
+	so <<<2em>>> would equal <<<24pt>>>, <<<0.5em>>> would equal <<<6pt>>>, etc.
+	
+	There are many opinions about the best unit to use for style sheet definitions.
+	We've selected <em> because it is scalable and relative to the font size.
+	While both <em> and <%> are relative measures. The difference is what each is
+	relative to. <em> is always relative to font size. <%> is relative to the
+	containing block, usually the body, a div, or a table.
+	
+	A cool feature of <em> scaling is the effect a parent <em> size has on its
+	child elements. A prominent component of the site layout is the left
+	navigation menu. This menu is contained in a <div> with id =
+	<<<#leftColumn>>>. To resize <<all>> elements of a <<<#leftColumn>>>, change
+	the font size in one place. In the sample below, <<<font-size: 0.8em;>>>
+	reduces all child <em> measurements by 20%.
+	
++----------------------------
+body, td, select, input, li {
+    font-size: 1.0em;
+}
+table {
+    font-size: 0.8em;
+}
+#leftColumn {
+    font-size: 0.8em;
+    width: 17.0em;
+}
++----------------------------
+
+	Note: Because we generate <<<site.css>>> during the site build, changes are
+	made to the template at <<<src/site/templates/css/site.css>>>.
+
+* Font Family
+
+	The <<<site.css>>> can be used to change the font by re-defining the font
+	family stack of the major visual components.
+
++--------------------------------------------------------------------------
+body, td, select, input, li {
+    font-family: "Verdana", "Geneva", "DejaVu Sans", sans-serif;
+}
+code, pre, .source {
+    font-family: "Lucida Console", "Monaco", "DejaVu Sans Mono", monospace;
+}
+tt {
+    font-family : "Courier New", "Nimbus Mono L", monospace;
+}
++--------------------------------------------------------------------------
+
+	Note: Because we generate <<<site.css>>> during the site build, changes are
+	made to the template at <<<src/site/templates/css/site.css>>>.
+~~ vi:set tabstop=4 hardtabs=4 shiftwidth=4:
