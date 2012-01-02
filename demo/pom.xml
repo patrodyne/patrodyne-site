@@ -37,14 +37,14 @@
 	</licenses>
 
 	<scm>
-		<connection>scm:git:git://github.com/patrodyne/patrodyne-site-demo.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com:patrodyne/patrodyne-site-demo.git</developerConnection>
-		<url>https://github.com/patrodyne/patrodyne-site-demo/blob/master</url>
+		<connection>scm:git:git://github.com/patrodyne/patrodyne-site.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com:patrodyne/patrodyne-site.git</developerConnection>
+		<url>https://github.com/patrodyne/patrodyne-site/tree/master/demo</url>
 	</scm>
 
 	<issueManagement>
 		<system>GitHub</system>
-		<url>https://github.com/patrodyne/patrodyne-site-demo/issues</url>
+		<url>https://github.com/patrodyne/patrodyne-site/issues</url>
 	</issueManagement>
 
 	<developers>
