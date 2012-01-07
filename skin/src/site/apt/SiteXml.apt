@@ -6,7 +6,7 @@ Configure site.xml
 <skin>
     <groupId>org.patrodyne</groupId>
     <artifactId>patrodyne-site-skin</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </skin>
 +-----------------------
 ~~ vi:set tabstop=4 hardtabs=4 shiftwidth=4:

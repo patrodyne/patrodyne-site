@@ -6,7 +6,7 @@ Custom Color Scheme
 	<<<maven-theme.css>>>.
 
 +----------------------------
-patrodyne-site-skin-1.0.0.jar
+patrodyne-site-skin-1.0.1.jar
 |-- css
 |   |-- maven-base.css
 |   |-- maven-theme.css

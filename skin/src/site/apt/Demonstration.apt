@@ -201,7 +201,7 @@ patrodyne-site/demo
 		
 		* artifactId = <<<patrodyne-site-skin>>>
 		
-		* version = <<<1.0.0>>>
+		* version = <<<1.0.1>>>
 	
 	* bannerLeft - Puts an image in the top left of each page. Typically, this is
 	your logo. You can name alternate text and add a hyper-reference to your home
