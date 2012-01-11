@@ -38,7 +38,7 @@
 
 	<scm>
 		<connection>scm:git:git://github.com/patrodyne/patrodyne-site.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com:patrodyne/patrodyne-site.git</developerConnection>
+		<developerConnection>scm:git:ssh://git@github.com/patrodyne/patrodyne-site.git</developerConnection>
 		<url>https://github.com/patrodyne/patrodyne-site/tree/master/demo</url>
 	</scm>
 

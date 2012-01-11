@@ -71,6 +71,12 @@
 			</item>
 			<item name="FAQ" href="faq.html"/>
 		</menu>
+		
+		<menu name="Download">
+			<item name="artifacts" href="http://search.maven.org/#search|ga|1|a%3A%22patrodyne-site-skin%22"/>
+			<item name="tarball" href="https://github.com/patrodyne/patrodyne-site/tarball/master"/>
+			<item name="zipball" href="https://github.com/patrodyne/patrodyne-site/zipball/master"/>
+		</menu>
 
 		<menu ref="reports"/>
 
