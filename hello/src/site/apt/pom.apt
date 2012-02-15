@@ -1,0 +1,193 @@
+Project Object Model
+
+	The POM for the <Hello> installer extends our <Site Demo> by adding an
+	installer to the build. To understand how it works, this POM can be viewed
+	into two configurations: site and installer. The
+	{{{http://patrodyne.org/sites/site-skin/Demonstration.html}Site Demo}}
+	provides a full description of the site configuration. Here we focus on how 
+	to configure an installer.
+	
+* {Properties}
+
++-------------------------------------------------------------------------------
+<properties>
+    ...
+    <source>${basedir}/src</source>
+    <target>${project.build.directory}</target>
+    <icndir>icons</icndir>
+    <cfgdir>cfg</cfgdir>
+    <libdir>lib</libdir>
+    <extdir>lib/ext</extdir>
+    <logdir>log</logdir>
+    <izpack.suffix>install</izpack.suffix>
+    <izpack.source>${source}/izpack</izpack.source>
+    <izpack.target>${target}/izpack</izpack.target>
+    ...
+</properties>
++-------------------------------------------------------------------------------
+
+	These properties define, in one place, values to be used throughout the
+	<<<pom.xml>>>, <<<install.xml>>> and <<<*_shortcuts.xml>>> files.
+	
+	* <<<izpack.suffix>>> - Used in the <<<izpack-maven-plugin>>> to link the
+	<<<kind>>> with the <<<installerFile>>> name.
+	
+	* <<<izpack.source>>> - The location of the <IzPack> source files.
+
+	* <<<izpack.target>>> - The location of the <IzPack> target (output) files.
+
+* {Plugin Management}
+
++-------------------------------------------------------------------------------
+<plugin>
+    <groupId>org.codehaus.izpack</groupId>
+    <artifactId>izpack-maven-plugin</artifactId>
+    <version>1.0-alpha-5</version>
+    <dependencies>
+        <dependency>
+            <groupId>org.codehaus.izpack</groupId>
+            <artifactId>izpack-standalone-compiler</artifactId>
+            <version>4.3.5</version>
+        </dependency>
+    </dependencies>
+</plugin>
++-------------------------------------------------------------------------------
+
+	The {{{http://izpack.codehaus.org/izpack-maven-plugin/}IzPack Maven Plugin}}
+	compiles and produces a Java installer from an IzPack XML configuration file.
+	The installer is then installed/deployed to maven repositories at
+	install/deploy phases respectively.
+	
+	Plugin Management is used to <declare> plugin configurations. To use a plugin
+	it must also appear in the POM plugins section. The advantage of the
+	management section is to declare basic values, such as version, once.
+	
+* {Plugins}
+	
+	In addition to using the <<<izpack-maven-plugin>>>, we'll use the:
+	
+	* {{{http://maven.apache.org/plugins/maven-dependency-plugin/}maven-dependency-plugin}}
+	to include artifacts in the installer packs.
+	
+	* {{{http://maven.apache.org/plugins/maven-antrun-plugin/}maven-antrun-plugin}}
+	to run a myriad of tasks, two related to building the installer.
+
+** {Copy Dependencies}
+
++-------------------------------------------------------------------------------
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-dependency-plugin</artifactId>
+    <executions>
+        <execution>
+            <id>copy-library-dependencies</id>
+            <phase>prepare-package</phase>
+            <goals>
+                <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+                <outputDirectory>${izpack.target}/${libdir}</outputDirectory>
+                <excludeGroupIds>org.codehaus.izpack</excludeGroupIds>
+                <excludeScope>system</excludeScope>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
++-------------------------------------------------------------------------------
+
+	The <<<maven-dependency-plugin>>> copies dependent artifacts (libraries) from
+	the Maven repository to a staging path in our target <IzPack> location. From
+	there, an <Ant> execution will organize them into packs.
+
+** {Ant Executions}
+
++-------------------------------------------------------------------------------
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-antrun-plugin</artifactId>
+    <executions>
+        ...
+        <execution>
+            <id>prepare-izpack</id>
+            ...
+        </execution>
+
+        <execution>
+            <id>organize-izpack</id>
+            ...
+        </execution>
+    </executions>
+</plugin>
++-------------------------------------------------------------------------------
+
+	The <<<maven-antrun-plugin>>> is a workhorse performing a wagon load of tasks,
+	two of which, prepare and organize our <IzPack> configuration files.
+	
+*** {Prepare IzPack}
+
++-------------------------------------------------------------------------------
+<execution>
+    <id>prepare-izpack</id>
+    <phase>process-resources</phase>
+    <goals>
+        <goal>run</goal>
+    </goals>
+    <configuration>
+        <target>
+            <copy todir="${izpack.target}">
+                <fileset dir="${izpack.source}"/>
+            </copy>
+        </target>
+    </configuration>
+</execution>
++-------------------------------------------------------------------------------
+
+	The <<<prepare-izpack>>> execution copies all source installer files to the
+	target path.
+
+*** {Organize IzPack}
+
++-------------------------------------------------------------------------------
+<execution>
+    <id>organize-izpack</id>
+    <phase>package</phase>
+    <goals>
+        <goal>run</goal>
+    </goals>
+    <configuration>
+        <target>
+            <!-- Organize dependencies into logger packs -->
+            <move todir="${izpack.target}/packs/logger">
+                <fileset dir="${izpack.target}/lib">
+                    <include name="slf4j-api*"/>
+                </fileset>
+            </move>
+            <move todir="${izpack.target}/packs/logger/logback">
+                <fileset dir="${izpack.target}/lib">
+                    <include name="logback*"/>
+                </fileset>
+            </move>
+            <move todir="${izpack.target}/packs/logger/log4j">
+                <fileset dir="${izpack.target}/lib">
+                    <include name="log4j*"/>
+                    <include name="slf4j-log4j*"/>
+                </fileset>
+            </move>
+            <move todir="${izpack.target}/packs/logger/jul">
+                <fileset dir="${izpack.target}/lib">
+                    <include name="slf4j-jdk14*"/>
+                </fileset>
+            </move>
+            <move todir="${izpack.target}/packs/logger/simple">
+                <fileset dir="${izpack.target}/lib">
+                    <include name="slf4j-simple*"/>
+                </fileset>
+            </move>
+        </target>
+    </configuration>
+</execution>
++-------------------------------------------------------------------------------
+
+	The <<<organize-izpack>>> execution moves dependencies into <packs>. In this
+	case, each <pack> represents an optional logging framework that the end-user
+	can select for installation: logback, log4j, jul or simple.

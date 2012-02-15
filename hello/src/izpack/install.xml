@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <!-- IzPack Configuration, refs are relative to izpack build/base path. -->
 <installation version="1.0">
-	<variables>
-		<variable name="CFG_DIR" value="${cfgdir}"/>
-		<variable name="EXT_DIR" value="${extdir}"/>
-		<variable name="ICN_DIR" value="${icndir}"/>
-		<variable name="LIB_DIR" value="${libdir}"/>
-		<variable name="LOG_DIR" value="${logdir}"/>
-		<variable name="FINAL_NAME" value="${project.build.finalName}"/>
-	</variables>
-
 	<info>
 		<appname>${project.name}</appname>
 		<appversion>${project.version}</appversion>
@@ -22,34 +13,71 @@
 		<requiresjdk>no</requiresjdk>
 	</info>
 
-	<guiprefs width="805" height="500" resizable="no" />
+	<variables>
+		<variable name="CFG_DIR" value="${cfgdir}"/>
+		<variable name="EXT_DIR" value="${extdir}"/>
+		<variable name="ICN_DIR" value="${icndir}"/>
+		<variable name="LIB_DIR" value="${libdir}"/>
+		<variable name="LOG_DIR" value="${logdir}"/>
+		<variable name="FINAL_NAME" value="${project.build.finalName}"/>
+	</variables>
+
+	<dynamicvariables>
+		<variable name="JVM_CFG_LOG" value="logback.configurationFile=${cfgdir}/logback.xml" condition="LogbackSelected" />
+		<variable name="JVM_CFG_LOG" value="log4j.configuration=file:${cfgdir}/log4j.xml" condition="Log4jSelected" />
+		<variable name="JVM_CFG_LOG" value="java.util.logging.config.file=${cfgdir}/logging.properties" condition="JULSelected" />
+	</dynamicvariables>
+	
+	<conditions>
+		<condition type="PackSelection" id="LogbackSelected">
+			<packid>Logback</packid>
+		</condition>
+		<condition type="PackSelection" id="Log4jSelected">
+			<packid>Log4j</packid>
+		</condition>
+		<condition type="PackSelection" id="JULSelected">
+			<packid>JUL</packid>
+		</condition>
+		<condition type="not" id="LogbackIsSelectable">
+			<condition type="or" id="LogbackIsNotSelectable">
+				<condition type="ref" refid="Log4jSelected" />
+				<condition type="ref" refid="JULSelected" />
+			</condition>
+		</condition>
+		<condition type="not" id="Log4jIsSelectable">
+			<condition type="or" id="Log4jIsNotSelectable">
+				<condition type="ref" refid="LogbackSelected" />
+				<condition type="ref" refid="JULSelected" />
+			</condition>
+		</condition>
+		<condition type="not" id="JULIsSelectable">
+			<condition type="or" id="JULIsNotSelectable">
+				<condition type="ref" refid="LogbackSelected" />
+				<condition type="ref" refid="Log4jSelected" />
+			</condition>
+		</condition>
+	</conditions>
+	
+	<guiprefs width="800" height="500" resizable="no" />
  
 	<locale>
 		<langpack iso3="eng" />
 	</locale>
-
-    <resources>
-		<res id="Installer.image"		src="InstallerLeft.png" />
-		<res id="Unix_shortcutSpec.xml"	src="linux_shortcuts.xml"/>
-		<res id="shortcutSpec.xml"		src="winos_shortcuts.xml"/>
-    </resources>
-
-	<native type="izpack" name="ShellLink.dll">
-	    <os family="windows"/>
-	</native>
-
-	<native type="izpack" name="ShellLink_x64.dll">
-	    <os family="windows"/>
-	</native>
+	
+	<resources>
+		<res id="Installer.image" src="InstallerLeft.png" />
+		<res id="Unix_shortcutSpec.xml" src="linux_shortcuts.xml" />
+		<res id="shortcutSpec.xml" src="winos_shortcuts.xml" />
+	</resources>
 
 	<panels>
-		<panel classname="HelloPanel" />
+		<panel classname="HelloPanel"/>
 		<panel classname="TargetPanel"/>	   
 		<panel classname="TreePacksPanel"/>
 		<panel classname="SummaryPanel"/>
 		<panel classname="InstallPanel"/>		
 		<panel classname="ShortcutPanel"/>
-		<panel classname="FinishPanel" />
+		<panel classname="FinishPanel"/>
 	</panels>
  
 	<packs>
@@ -108,40 +136,13 @@
 		</pack>
 	</packs>
 
-	<dynamicvariables>
-		<variable name="JVM_CFG_LOG" value="logback.configurationFile=${cfgdir}/logback.xml" condition="LogbackSelected" />
-		<variable name="JVM_CFG_LOG" value="log4j.configuration=file:${cfgdir}/log4j.xml" condition="Log4jSelected" />
-		<variable name="JVM_CFG_LOG" value="java.util.logging.config.file=${cfgdir}/logging.properties" condition="JULSelected" />
-	</dynamicvariables>
+	<native type="izpack" name="ShellLink.dll">
+		<os family="windows" />
+	</native>
 
-	<conditions>
-		<condition type="PackSelection" id="LogbackSelected">
-			<packid>Logback</packid>
-		</condition>
-		<condition type="PackSelection" id="Log4jSelected">
-			<packid>Log4j</packid>
-		</condition>
-		<condition type="PackSelection" id="JULSelected">
-			<packid>JUL</packid>
-		</condition>
-		<condition type="not" id="LogbackIsSelectable">
-			<condition type="or" id="LogbackIsNotSelectable">
-				<condition type="ref" refid="Log4jSelected"/>
-				<condition type="ref" refid="JULSelected"/>
-			</condition>
-		</condition>
-		<condition type="not" id="Log4jIsSelectable">
-			<condition type="or" id="Log4jIsNotSelectable">
-				<condition type="ref" refid="LogbackSelected"/>
-				<condition type="ref" refid="JULSelected"/>
-			</condition>
-		</condition>
-		<condition type="not" id="JULIsSelectable">
-			<condition type="or" id="JULIsNotSelectable">
-				<condition type="ref" refid="LogbackSelected"/>
-				<condition type="ref" refid="Log4jSelected"/>
-			</condition>
-		</condition>
-	</conditions>
+	<native type="izpack" name="ShellLink_x64.dll">
+		<os family="windows"/>
+	</native>
+	
 </installation>
 <!-- vi:set tabstop=4 hardtabs=4 shiftwidth=4: -->

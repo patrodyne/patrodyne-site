@@ -148,6 +148,18 @@ hr {
 	color: @clr.secondary-a-2@;
 	font-style: italic;
 }
+#bodyColumn h6 {
+	color: @clr.secondary-a-2@;
+	background-color: @clr.secondary-a-5@;
+	border: thin solid @clr.complement-3@;
+}
+#bodyColumn h6 a:link, a.externalLink:link {
+	color: @clr.secondary-a-3@;
+}
+#bodyColumn h6 a:visited, a.externalLink:visited {
+	color: @clr.secondary-a-2@;
+	font-style: italic;
+}
 #bodyColumn table.bodyTable {
 	border-collapse: collapse;
 	border: thin solid @clr.complement-3@;

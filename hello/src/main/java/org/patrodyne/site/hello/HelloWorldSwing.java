@@ -1,4 +1,4 @@
-// PatroDyne: Patron Supported Dynamic Executables
+// PatroDyne: Patron Supported Dynamic Executables, http://patrodyne.org
 // Released under LGPL license. See terms at http://www.gnu.org.
 package org.patrodyne.site.hello;
 
@@ -11,30 +11,51 @@ import javax.swing.JLabel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// Demonstration of a Swing application with a SLF4J logger.
+/** Demonstration of a Swing application with a SLF4J logger. */
 public class HelloWorldSwing implements Runnable 
 {
+	/** Represents a logger. */
 	protected static Logger log = LoggerFactory.getLogger(HelloWorldSwing.class);
 
 	private String title = "";
-	protected String getTitle() { return title;	}
-	protected void setTitle(String title) { this.title = title; }
+	/** 
+	 * Get a title for the main frame.
+	 * @return A title string.
+	 */
+	protected String getTitle()
+	{ 
+		return title;
+	}
+	/**
+	 * Set a title for the main frame.
+	 * @param title text for the main window frame.
+	 */
+	protected void setTitle(String title)
+	{
+		this.title = title;
+	}
 
-	// Construct with a title.
+	/** Construct with a title for the frame. */
 	public HelloWorldSwing(String title)
 	{
 		setTitle(title);
 	}
 
-	// Start application in in the dispatch thread of the AWT EventQueue,
-	// for thread safety.
+	/** 
+	 * Start application in in the dispatch thread of the AWT EventQueue,
+	 * for thread safety.
+	 */
 	public static void start(String title)
 	{
 		EventQueue.invokeLater(new HelloWorldSwing(title));
 	}
 
-	// Run this application in the AWT event dispatching thread,
-	// for thread safety.
+	/** 
+	 * Run this application in the AWT event dispatching thread,
+	 * for thread safety. Initialize a frame, set its size to a small
+	 * portion of the screen and center it, set a title and make the
+	 * frame visible.
+	 */
 	public void run()
 	{
 		log.info(getTitle()+": Start");

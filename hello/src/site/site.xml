@@ -9,7 +9,7 @@
 	<skin>
 		<groupId>org.patrodyne</groupId>
 		<artifactId>patrodyne-site-skin</artifactId>
-		<version>1.0.1</version>
+		<version>1.0.2-SNAPSHOT</version>
 	</skin>
 
 	<bannerLeft>
@@ -44,6 +44,34 @@
 		<menu name="Overview">
 			<item name="Introduction" href="index.html" collapse="true">
 				<item name="Todo" href="Todo.html"/>
+			</item>
+			<item name="Demonstration" href="Demonstration.html" collapse="true">
+				<item name="Configuration" href="Demonstration.html#Configuration">
+					<item name="Installer" href="Demonstration.html#Installer"/>
+					<item name="Shortcut" href="Demonstration.html#Shortcut">
+						<item name="Linux" href="Demonstration.html#Linux"/>
+						<item name="Windows" href="Demonstration.html#Windows"/>
+					</item>
+				</item>
+				<item name="Folders" href="Demonstration.html#Folders">
+					<item name="Binaries" href="Demonstration.html#Binaries"/>
+					<item name="Configurations" href="Demonstration.html#Configurations"/>
+					<item name="Icons" href="Demonstration.html#Icons"/>
+					<item name="Libraries" href="Demonstration.html#Libraries"/>
+					<item name="Logging" href="Demonstration.html#Logging"/>
+					<item name="Packs" href="Demonstration.html#Packs"/>
+				</item>
+			</item>
+			<item name="POM" href="pom.html" collapse="true">
+				<item name="Properties" href="pom.html#Properties"/>
+				<item name="Plugin Management" href="pom.html#Plugin_Management"/>
+				<item name="Plugins" href="pom.html#Plugins">
+					<item name="Copy Dependencies" href="pom.html#Copy_Dependencies"/>
+					<item name="Ant Executions" href="pom.html#Ant_Executions">
+						<item name="Prepare IzPack" href="pom.html#Prepare_IzPack"/>
+						<item name="Organize IzPack" href="pom.html#Organize_IzPack"/>
+					</item>
+				</item>
 			</item>
 			<item name="FAQ" href="faq.html"/>
 		</menu>

@@ -60,6 +60,11 @@ h5 {
 	font-size: 1.1em;
 	font-weight: bold;
 }
+h6 {
+	padding: 0.2em 0.2em 0.2em 0.4em;
+	font-size: 1.0em;
+	font-weight: bold;
+}
 img {
 	border: none;
 }

@@ -1,3 +1,13 @@
-Demonstration Installation
+Install a Simple Swing Application
 
-	Demonstration project using IzPack to install a simple Swing application.
+	<<On the surface>>, this project builds a application to display a simple
+	salutation. As such, the application can be used as a starting point for any
+	Swing project. It uses one class to launch the application and another to
+	start the GUI. The launcher limits its imports to the standard classloader but
+	the GUI or other classes may use packages loaded by the Java Extension
+	Mechanism. In the event that the extension path is not present, the launcher
+	can catch the exception and display a message dialog.
+	
+	<<Under the surface>>, this project is actually about creating an <IzPack>
+	installer for this or any project. See the demonstration page for
+	{{{./Demonstration.html}more}}.

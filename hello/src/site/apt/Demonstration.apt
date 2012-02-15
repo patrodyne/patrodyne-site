@@ -1,0 +1,701 @@
+Installer Demo
+
+	Reference: {{{http://izpack.org/documentation/index.html}IzPack Documentation}}
+
+	This project builds a Swing based <<<Hello>>> application; but, this project
+	is not about that! Instead, it <is> about the installer used to set it up on
+	the end-user's system. There are various ways to distribute an application,
+	the most common being: tarball, zip, package, and installer. The first two
+	distribution types require the user to 'wire-up' the application by adding
+	short cuts and menu entries. The last two types ease the set-up by automating
+	or guiding the user through the set-up options. Packaging is great for Linux
+	systems; but, it is not so common on other systems. By providing an installer,
+	an end-user can quickly get our <<<Hello>>> started. Better yet, you can use
+	this configuration to create an installer for <your> cool application, too!
+
+	Fortunately, the kind folks at {{{http://izpack.org}IzPack}} have done most of
+	the work for us. We only need to configure for our needs. If you are not
+	familiar with <IzPack>, take a moment to browse their
+	{{{http://izpack.org/documentation/index.html}documentation}} then come back
+	here to see how we put it to use.
+
+	At Patrodyne, we use Maven to build everything and for <IzPack> we use 
+	{{{http://izpack.codehaus.org/izpack-maven-plugin/}izpack-maven-plugin}}. The
+	plugin has a default location for the <IzPack> files, in the <<<src/izpack>>>
+	folder. Here is the layout...
+
++------------------------------------------------
+patrodyne-site/hello/src/izpack
+|-- bin
+|   |-- Hello
+|   |-- Hello.cmd
+|   |-- native
+|   |   `-- izpack
+|   |       |-- ShellLink.dll
+|   |       `-- ShellLink_x64.dll
+|   `-- Uninstall
+|-- cfg
+|   |-- log4j.dtd
+|   |-- log4j.xml
+|   |-- logback.xml
+|   `-- logging.properties
+|-- icons
+|   |-- Hello.ico
+|   |-- Hello.png
+|   |-- uninstaller.ico
+|   `-- uninstaller.png
+|-- lib
+|   `-- ext
+|-- log
+|-- packs
+|   `-- logger
+|       |-- jul
+|       |-- log4j
+|       |-- logback
+|       `-- simple
+|-- InstallerLeft.png
+|-- install.xml
+|-- README.html
+|-- linux_shortcuts.xml
+`-- winos_shortcuts.xml
++------------------------------------------------
+
+* {Configuration}
+
+	We use three configuration files to define how our installation will be
+	packaged and how it will operate: <<<install.xml>>>, <<<linux_shortcuts.xml>>>
+	and <<<winos_shortcuts.xml>>>. The content of these files is specified by
+	<IzPack> and they are processed by a Maven plugin. In the POM, the
+	<<<izpack-maven-plugin>>> declares its <<<descriptor>>> to be this
+	<<<install.xml>>>. The <<<install.xml>>> declares the shortcuts to complete
+	the configuration.
+	
+	The configuration files refer to other resources, as describe further down
+	this page.
+
+** {Installer} XML
+
+	We begin the <<<install.xml>>> with information describing our project and
+	ourselves. Conveniently, we can include properties from the POM to keep things
+	{{{http://en.wikipedia.org/wiki/Don%27t_repeat_yourself}DRY}}. <IzPack> puts
+	this info on the first panel that the end-user sees.
+
+*** Info
+
++------------------------------------------------------------------------------
+<info>
+    <appname>${project.name}</appname>
+    <appversion>${project.version}</appversion>
+    <appsubpath>Patrodyne/${project.artifactId}/${project.version}</appsubpath>
+    <authors>
+        <author name="Patrodyne" email="rick.osullivan@patrodyne.org"/>
+    </authors>
+    <url>${project.url}</url>
+    <javaversion>1.6</javaversion>
+    <requiresjdk>no</requiresjdk>
+</info>
++------------------------------------------------------------------------------
+
+	For the application name, we use the POM's project name. The name of our
+	poject is <Hello>. It is an informal name that we use when speaking about
+	our project in conversation. In contrast, the artifact name is more formal:
+	<<<patrodyne-site-hello>>>.
+	
+	The sub-path determines where our project will be installed, relative to the
+	installation path. In other words, after the end-user selects the installation
+	path, the sub-path is created in it. Our sub-path has three parts:
+	
+	[[1]] Patrodyne - our group name ensures that this project and all of our
+	other fine projects are grouped together.
+	
+	[[2]] <<<${project.artifactId}>>> - the artifact id, from the POM, provides a
+	well-defined name for this project.
+	
+	[[3]] <<<${project.version}>>> - a place for each version and each version in
+	its own place!
+	
+	[]
+
+*** Variables
+
++-------------------------------------------------------------------
+<variables>
+    <variable name="CFG_DIR" value="${cfgdir}"/>
+    <variable name="EXT_DIR" value="${extdir}"/>
+    <variable name="ICN_DIR" value="${icndir}"/>
+    <variable name="LIB_DIR" value="${libdir}"/>
+    <variable name="LOG_DIR" value="${logdir}"/>
+    <variable name="FINAL_NAME" value="${project.build.finalName}"/>
+</variables>
++-------------------------------------------------------------------
+
+	We define some <IzPack> variables here so we can use them in the {{Shortcut}}
+	files.
+
+*** Dynamic Variables
+
++-------------------------------------------------------------------
+<dynamicvariables>
+    <variable 
+        name="JVM_CFG_LOG" 
+        value="logback.configurationFile=${cfgdir}/logback.xml" 
+        condition="LogbackSelected"
+    />
+    <variable
+        name="JVM_CFG_LOG"
+        value="log4j.configuration=file:${cfgdir}/log4j.xml"
+        condition="Log4jSelected"
+    />
+    <variable
+        name="JVM_CFG_LOG"
+        value="java.util.logging.config.file=${cfgdir}/logging.properties"
+        condition="JULSelected"
+    />
+</dynamicvariables>
++-------------------------------------------------------------------
+
+	Dynamic variables are cool. The value is determined based on conditions
+	determined by the end-user's choices. For example, the <Hello> installation
+	gives the user an option to choose one of three popular logging frameworks:
+	<logback>, <log4j> or <jul>. The value of <<<JVM_CFG_LOG>>> will correspond to
+	the selected logging framework.
+	
+	Hint: You'll see <<<JVM_CFG_LOG>>> later when we declare the command line
+	options for launching the <Hello> application.
+
+*** Conditions
+
++-------------------------------------------------------------------
+<conditions>
+    <condition type="PackSelection" id="LogbackSelected">
+        <packid>Logback</packid>
+    </condition>
+    <condition type="PackSelection" id="Log4jSelected">
+        <packid>Log4j</packid>
+    </condition>
+    <condition type="PackSelection" id="JULSelected">
+        <packid>JUL</packid>
+    </condition>
+    
+    <condition type="not" id="LogbackIsSelectable">
+        <condition type="or" id="LogbackIsNotSelectable">
+            <condition type="ref" refid="Log4jSelected" />
+            <condition type="ref" refid="JULSelected" />
+        </condition>
+    </condition>
+    <condition type="not" id="Log4jIsSelectable">
+        <condition type="or" id="Log4jIsNotSelectable">
+            <condition type="ref" refid="LogbackSelected" />
+            <condition type="ref" refid="JULSelected" />
+        </condition>
+    </condition>
+    <condition type="not" id="JULIsSelectable">
+        <condition type="or" id="JULIsNotSelectable">
+            <condition type="ref" refid="LogbackSelected" />
+            <condition type="ref" refid="Log4jSelected" />
+        </condition>
+    </condition>
+</conditions>
++-------------------------------------------------------------------
+
+	In this installation, we use <conditions> to determine which one of three
+	logging frameworks is selectable:
+	
+	* <<<LogbackIsSelectable>>> - as the default, it will be preselected.
+	
+	* <<<Log4jIsSelectable>>> - false until no other logger is selected.
+	
+	* <<<JULIsSelectable>>> - false until no other logger is selected.
+	
+	We use this information to implement a set of radio buttons. First we set a
+	condition to detect which pack is selected:
+	
+	* <<<LogbackSelected>>> - true, when the Logback option is checkmarked.
+
+	* <<<Log4jSelected>>> - true, when the Log4j option is checkmarked.
+
+	* <<<JULSelected>>> - true, when the Java Utility Logger option is checkmarked.
+
+	Next, we set a <<<*IsNotSelectable>>> condition when any of the other options
+	is selected.
+	
+	Finally, we negate <<<*IsNotSelectable>>> to determine <<<*IsSelectable>>>.
+	
+	We'll use these conditions later in the Packs section.
+
+*** GUI Preferences
+
++-------------------------------------------------------------------
+<guiprefs width="800" height="500" resizable="no" />
++-------------------------------------------------------------------
+
+	In this element, we set the dimensions of the <IzPack> installer window to a
+	nice rectangles and disable resizing, to keep things simple.
+	
+	Nice rectangles have sides corresponding to consecutive
+	{{{http://en.wikipedia.org/wiki/Fibonacci_number}Fibonacci}} numbers: 1, 1, 2,
+	3, 5, 8, 13, etc. In this case, we choose 5 and 8 (times 100).
+
+*** Locale
+
++-------------------------------------------------------------------
+<locale>
+    <langpack iso3="eng" />
+</locale>
++-------------------------------------------------------------------
+
+	Until we learn to translate "Hello" into other languages, this installation
+	will only support English.
+
+*** Resources
+
++-------------------------------------------------------------------
+<resources>
+    <res id="Installer.image"       src="InstallerLeft.png" />
+    <res id="Unix_shortcutSpec.xml" src="linux_shortcuts.xml" />
+    <res id="shortcutSpec.xml"      src="winos_shortcuts.xml" />
+</resources>
++-------------------------------------------------------------------
+
+	To display a picture on the left side of the <IzPack> installer window, we
+	define a resource with a magic id, <<<Installer.image>>>. Supported image
+	formats are GIF, JPEG and PNG.
+	
+	Another magic id, <<<Unix_shortcutSpec.xml>>> defines a resource for
+	{{{Linux}Linux desktop shortcuts}}.
+	
+	And another magic id, <<<shortcutSpec.xml>>> defines a resource for
+	{{{Windows}Windows desktop shortcuts}}.
+
+*** Panels
+
++-------------------------------------------------------------------
+<panels>
+    <panel classname="HelloPanel"/>
+    <panel classname="TargetPanel"/>	   
+    <panel classname="TreePacksPanel"/>
+    <panel classname="SummaryPanel"/>
+    <panel classname="InstallPanel"/>		
+    <panel classname="ShortcutPanel"/>
+    <panel classname="FinishPanel"/>
+</panels>
++-------------------------------------------------------------------
+
+	{{{http://izpack.org/documentation/panels.html#hellopanel}HelloPanel}} - This
+	panel welcomes the user by displaying the project name, the version, the URL
+	as well as the authors.
+	
+	{{{http://izpack.org/documentation/panels.html#targetpanel}TargetPanel}} -
+	This panel allows the user to select the installation path. 
+
+	{{{http://izpack.org/documentation/panels.html#treepackspanel}TreePacksPanel}}
+	- Using a tree-like structure, this allows the user to select the packs s/he
+	wants to install.
+
+	{{{http://izpack.org/documentation/panels.html#summarypanel}SummaryPanel}} -
+	This panel gives a summary of all shown panels.
+
+	{{{http://izpack.org/documentation/panels.html#installpanel}InstallPanel}} -
+	This panel launches the installation process!
+
+	{{{http://izpack.org/documentation/panels.html#shortcutpanel}ShortcutPanel}} -
+	This panel is used to create desktop shortcuts.
+
+	{{{http://izpack.org/documentation/panels.html#finishpanel}FinishPanel}} - A
+	ending panel, able to write automated installer information.
+	
+	For a complete list of available panels, see
+	{{{http://izpack.org/documentation/panels.html}IzPack Panels}}.
+
+*** Packs
+
++-------------------------------------------------------------------
+<packs>
+    <pack name="Core" required="yes">
+        <description>Core installation files</description>
+        <file src="README.html" targetdir="${INSTALL_PATH}"/>
+        <file src="../${FINAL_NAME}.jar" targetdir="${INSTALL_PATH}"/>
+        <fileset dir="${libdir}" targetdir="${INSTALL_PATH}/${libdir}">
+            <include name="**"/>
+        </fileset>
+        <!-- Unix -->
+        ...
+        <!-- Windows -->
+        ...
+    </pack>
+    <pack name="Logger" required="yes">
+        ...
+    </pack>
+    <pack name="Logback" parent="Logger" required="no" 
+        preselected="yes" condition="LogbackIsSelectable">
+        ...
+    </pack>
+    <pack name="Log4j" parent="Logger" required="no" 
+        preselected="no" condition="Log4jIsSelectable">
+        ...
+    </pack>
+    <pack name="JUL" parent="Logger" required="no" 
+        preselected="no" condition="JULIsSelectable">
+        ...
+    </pack>
+</packs>
++-------------------------------------------------------------------
+
+	Packs contain our application and optional features. <IzPack> provides
+	Ant-like actions to gather files, artifacts, libraries and other resources to
+	create an installer package. The <Hello> installer defines five packs:
+	
+	[[1]] <<<Core>>> - The <Hello> application is comprised of a <<<jar>>> and
+	additional libraries. We add a <<<README.html>>> to explain our cool app, too.
+	This pack includes conditional actions depending of the target operating
+	system.
+
+	[[2]] <<<Logger>>> - A wrapper to group the logging options.
+	
+	[[3]] <<<Logback>>> - A pack containing the Logback libraries and settings
+	file. This is preselected to be the default option.
+	
+	[[4]] <<<Log4j>>> - A pack containing the Log4j libraries and settings file.
+	
+	[[5]] <<<JUL>>> - A pack containing the Java Utility Logger libraries and
+	settings file.
+
+	[]
+
+	Note: We use the <<<LogbackIsSelectable>>>, <<<Log4jIsSelectable>>>, and
+	<<<JULIsSelectable>>> conditions defined earlier to dynamically maintain the
+	checkboxes as a set of radio buttons.
+
+*** Native
+
++-------------------------------------------------------------------
+<native type="izpack" name="ShellLink.dll">
+    <os family="windows" />
+</native>
+
+<native type="izpack" name="ShellLink_x64.dll">
+    <os family="windows"/>
+</native>
++-------------------------------------------------------------------
+
+	These native libraries are used to create desktop shortcuts in Windows.
+
+** {Shortcut} XML
+
+	A desktop shortcut is a small file containing the name of a target program to
+	launch. The shortcut may specify additional parameters to be passed to the
+	program when it is run. Each shortcut can have its own icon. Shortcuts are
+	commonly placed on a desktop, in an application launcher panel, or in the main
+	menu of a desktop environment.
+	
+	In <IzPack> we specify how and where desktop shortcuts are installed with the
+	aid of an XML configuration file. 
+
+*** {Linux} Shortcuts
+
+	In Linux, shortcuts can be added to the desktop and to the application menu.
+
+**** Overview
+
++-------------------------------------------------------------------
+<shortcuts>
+    <skipIfNotSupported/>
+    <defaultCurrentUser/>
+    <shortcut 
+        ... Specification Attributes ...
+        ... Control Attributes ...
+        ... Linux Attributes ...
+    >
+        <createForPack name="Core"/>
+    </shortcut>
+</shortcuts>
++-------------------------------------------------------------------
+
+	As the root, the <<<shortcuts>>> element contains a few global settings and wraps
+	one or more <<<shortcut>>> definitions.
+	
+	The <<<skipIfNotSupported>>> element is used when the target operating system does
+	not support shortcuts. This tag omits the panel on non-supported systems. 
+
+	The <<<defaultCurrentUser>>> specifies to use "current user" as the default
+	selection. If not specified then "all users" is the default selection, when
+	supported.
+	
+	The <<<shortcut>>> element has several attributes to be discussed below. It
+	contains sub-elements to create the shortcut only if the specified pack is
+	actually installed.
+
+**** Specification Attributes, in <<<shortcut>>> element
+
++-------------------------------------------------------------------
+name="${APP_NAME}"
+description="Launch ${APP_NAME}"
+target="java"
+commandLine="-D${JVM_CFG_LOG} -Djava.ext.dirs=${EXT_DIR} 
+    -jar &quot;${INSTALL_PATH}/${FINAL_NAME}.jar&quot;"
+workingDirectory="${INSTALL_PATH}"
+iconFile="${INSTALL_PATH}/${ICN_DIR}/${APP_NAME}.png"
+initialState="normal"
++-------------------------------------------------------------------
+
+	The <<<name>>> element is defined using a built-in variable which, in
+	the <Hello> installation, traces back to the POM project name.
+	
+	The <<<description>>> is usually displayed as a tool tip for the shortcut.
+	
+	The <<<target>>> is the program to be launched. We use "java" as the program and
+	use the <<<commandLine>>> attribute to specify the jar containing our <Hello>
+	application.
+	
+	The <<<commandLine>>> contains the arguments to be passed to the <<<target>>> program.
+	In this demonstration, the setting is dynamically defined using previously set
+	variables. The <<<JVM_CFG_LOG>>> value is a dynamic variable set in the
+	{{Installer}} XML based on the user's choice of the logging framework.
+
+	The <<<workingDirectory>>> defines the start-up path when the <Hello> application
+	is launched.
+	
+	The <<<iconFile>>> is an image for both the desktop and the menu icon, 48x48
+	pixels is a good size.
+	
+	The <<<initialState>>> is "normal" but it is not used on Linux.
+
+**** Control Attributes, in <<<shortcut>>> element
+
++-------------------------------------------------------------------
+desktop="yes"
+programGroup="yes"
+applications="no"
+startMenu="no"
+startup="no"
++-------------------------------------------------------------------
+
+	These settings are sufficient to place a shortcut on the desktop and in the
+	application menu.
+
+**** Linux Attributes, in <<<shortcut>>> element
+
++-------------------------------------------------------------------
+categories="Application;Office;"
+type="Application"
+terminal="false"
+encoding="UTF-8"
++-------------------------------------------------------------------
+
+	The <<<categories>>> attribute defines a list of suggested
+	{{{http://standards.freedesktop.org/menu-spec/latest/apa.html}locatons}} for
+	the menu shortcut.
+	
+	the <<<type>>> must be one of Application or Link.
+
+*** {Windows} Shortcuts
+
+	In Windows, shortcuts can be added to the desktop and grouped in the
+	application menu.
+
+**** Overview
+
++-------------------------------------------------------------------
+<shortcuts>
+    <skipIfNotSupported/>
+    <programGroup defaultName="Patrodyne\${APP_NAME}"
+        location="applications"/>
+    <defaultCurrentUser/>
+    <shortcut 
+        ... Hello Launcher ...
+    >
+        <createForPack name="Core"/>
+    </shortcut>
+
+    <shortcut
+        ... Uninstaller ...
+    >
+        <createForPack name="Core" />
+    </shortcut>
+</shortcuts>
++-------------------------------------------------------------------
+
+	The <<<programGroup>>> defines a sub-menu where we will place two shortcuts, one
+	for the launcher and one for the uninstaller.
+
+**** Hello Launcher
+
++-------------------------------------------------------------------
+name="${APP_NAME}"
+description="Launch ${APP_NAME}"
+target="java"
+commandLine="-D${JVM_CFG_LOG} -Djava.ext.dirs=${EXT_DIR} 
+    -jar &quot;${INSTALL_PATH}/${FINAL_NAME}.jar&quot;"
+workingDirectory="${INSTALL_PATH}"
+iconFile="${INSTALL_PATH}/${ICN_DIR}/${APP_NAME}.ico"
+iconIndex="0"
+initialState="noShow"
+
+desktop="yes"
+programGroup="yes"
+applications="no"
+startMenu="no"
+startup="no"
++-------------------------------------------------------------------
+
+	The <<<iconFile>>> refers to a <<<*.ico>>> icon which, by nature, contains a few
+	images of different sizes.
+	
+	The <<<iconIndex>>> defines which image to use.
+	
+	The <<<initialState>>> is <<<noShow>>> to hide the shell window and deference to the
+	<Hello> application.
+
+**** Uninstaller
+
++-------------------------------------------------------------------
+name="Uninstall ${APP_NAME}"
+description="Launch uninstaller"
+target="java"
+commandLine="-jar 
+    &quot;${INSTALL_PATH}/Uninstaller/uninstaller.jar&quot;"
+workingDirectory="${INSTALL_PATH}"
+iconFile="${INSTALL_PATH}/${ICN_DIR}/uninstaller.ico"
+iconIndex="0"
+initialState="noShow"
+
+desktop="no"
+programGroup="yes"
+applications="no"
+startMenu="no"
+startup="no"
++-------------------------------------------------------------------
+
+	No <<<desktop>>> shortcut, but we will put a <<<programGroup>>> shortcut for the
+	Uninstaller in the menu.
+
+* {Folders}
+
+	In addition to the XML configurations, we use several sub-directories to group
+	related resouces.
+
+** {Binaries} & Scripts
+
+	The <<<bin>>> folder contains native libraries and launch scripts.
+
+*** Native Libraries
+	
+	* <<<native/izpack/ShellLink.dll>>> - The native library required for 32 bit
+	Windows operating systems.
+
+	* <<<native/izpack/ShellLink_x64.dllcl>>> - The native library required for 64 bit
+	Windows operating systems.
+
+*** Launch Scripts
+
+	* <<<Hello>>> - a shell script for Linux to launch the <Hello> application.
+	
+	* <<<Hello.cmd>>> - a command script for Windows to launch the <Hello> application.
+	
+	* <<<Uninstall>>> - a shell script for Linux to reverse the <Hello> installation.  
+
+**** Hello
+
++------------------------------------------------------------------------
+#!/bin/sh
+java -D%{JVM_CFG_LOG} -Djava.ext.dirs=%{EXT_DIR} \
+    -jar "%{INSTALL_PATH}/%{FINAL_NAME}.jar"
+# vi:set tabstop=4 hardtabs=4 shiftwidth=4:
++------------------------------------------------------------------------
+
+	This Linux script is used to launch the <Hello> application from the desktop
+	or the command line. The first line, known as the shebang, tells Linux how to
+	run the script. It specifies the standard shell. The second line starts a Java
+	Virtual Machine (JVM) to run <Hello>. The third line instructs Vi or Vim to
+	use tabs of length 4.
+	
+	The <<<-D%{JVM_CFG_LOG}>>> defines a JVM system property to configure the
+	selected logging framework. For Logback, the definition is
+	<<<logback.configurationFile=cfg/logback.xml>>>.
+	
+	The <<<-Djava.ext.dirs=%{EXT_DIR}>>> tells the JVM to extend the classpath to
+	include all jars in the <<<%{EXT_DIR}>>> directory; which, in our
+	configuration, expands to <<<lib/ext>>>. Our <<<install.xml>>> copies the jars
+	for the selected logging framework to the extension path for dynamic,
+	pluggable class loading.
+	
+	The <<<-jar>>> option tells the JVM to run main class, as specified in the jar's
+	<<<META-INF/MANIFEST.MF>>> file. The <<<INSTALL_PATH>>> is selected by the user and
+	the <<<FINAL_NAME>>> refers to project's build final name as defined in the POM.
+
+**** Hello.cmd
+
++------------------------------------------------------------------------
+@echo off
+@start "%{APP_NAME}" /D"%{INSTALL_PATH}" javaw -D%{JVM_CFG_LOG} ^
+    -Djava.ext.dirs=%{EXT_DIR} -jar "%{INSTALL_PATH}/%{FINAL_NAME}.jar"
+@rem vi:set tabstop=4 hardtabs=4 shiftwidth=4:
++------------------------------------------------------------------------
+
+	This Windows script is used to launch the <Hello> application from the desktop
+	or the command line. The definitions are similar to the LInux script, above.
+	The difference is how the JVM is started. In order to detach the application
+	from the command window, the <<<start>>> command is used.
+	
+**** Uninstall
+
++------------------------------------------------------------------------
+#!/bin/sh
+java -jar "%{INSTALL_PATH}/Uninstaller/uninstaller.jar"
+# vi:set tabstop=4 hardtabs=4 shiftwidth=4:
++------------------------------------------------------------------------
+
+	This Linux script calls the main class of the <<<uninstaller.jar>>>, as
+	prepared by <IzPack>.
+
+** {Configurations}
+
+	For the <Hello> installation, we use the <<<cfg>>> folder to store various
+	logging configurations files. Only the settings file for the selected log
+	framework is installed.
+	
+	* <<<log4j.dtd>>> - Document Type Definition for Log4j settings file.
+	
+	* <<<log4j.xml>>> - settings file for the Log4j logger.
+	
+	* <<<logback.xml>>> - settings file for the Logback logger.
+	
+	* <<<logging.properties>>> - settings file for the Java Utility Logger.
+
+** {Icons}
+
+	Images files for Windows and Linux are used for desktop and menu shortcuts:
+	
+	* <<<Hello.ico>>> - Windows icon file with three images of size 48, 32, and 16
+	pixels, square.
+	
+	* <<<Hello.png>>> - Linux portable network graphic, 48 pixels square.
+	
+	* <<<uninstaller.ico>>> - Windows icon.
+	
+	* <<<uninstaller.png>>> - Linux portable network graphic.
+
+** {Libraries} & Extensions
+
+	Placeholder folders:
+	
+	* <<<lib>>> - static dependency jars.
+	
+	* <<<lib/ext>>> - dynamic dependency jars.
+
+** {Logging}
+
+	Placeholder folder.
+
+** {Packs}
+
+	Placeholder folders:
+	
+	* <<<logger/jul>>>
+	
+	* <<<logger/log4j>>>
+	
+	* <<<logger/logback>>>
+
+	* <<<logger/simple>>>
+	
