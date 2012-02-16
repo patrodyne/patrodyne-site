@@ -9,7 +9,7 @@
 	<skin>
 		<groupId>org.patrodyne</groupId>
 		<artifactId>patrodyne-site-skin</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.2-SNAPSHOT</version>
 	</skin>
 
 	<bannerLeft>

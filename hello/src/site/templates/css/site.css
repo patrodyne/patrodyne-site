@@ -57,15 +57,6 @@ acronym {
 body {
 	background-color: @clr.complement-5@;
 }
-body, td, select, input, li {
-	font-family: "Verdana", "Geneva", "DejaVu Sans", sans-serif;
-}
-code, pre, .source {
-	font-family: "Lucida Console", "Monaco", "DejaVu Sans Mono", monospace;
-}
-tt {
-	font-family : "Courier New", "Nimbus Mono L", monospace;
-}
 dl {
 	background-color: @clr.complement-4@;
 	border: thin solid @clr.complement-3@;
