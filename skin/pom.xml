@@ -1,5 +1,9 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project 
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -54,7 +58,7 @@
 			<id>patrodyne</id>
 			<name>Rick</name>
 			<email>rick.osullivan@patrodyne.org</email>
-			<url>http://patrodyne.org</url>
+			<url>http://resume.github.com/?patrodyne</url>
 			<organization>Patrodyne</organization>
 			<organizationUrl>http://patrodyne.org</organizationUrl>
 			<roles>
@@ -121,7 +125,6 @@
 							<groupId>org.apache.maven.plugins</groupId>
 							<artifactId>maven-changelog-plugin</artifactId>
 						</plugin>
-
 					</reportPlugins>
 				</configuration>
 			</plugin>
@@ -156,7 +159,7 @@
 						</goals>
 						<configuration>
 							<target>
-								<fixcrlf srcdir="${site.home}" includes="**/*.html" eol="lf" />
+								<fixcrlf srcdir="${site.home}" includes="**/*.html" eol="lf"/>
 							</target>
 						</configuration>
 					</execution>
@@ -169,7 +172,7 @@
 						</goals>
 						<configuration>
 							<target>
-								<delete dir="${site.home}" defaultexcludes="true" includeemptydirs="true" />
+								<delete dir="${site.home}" defaultexcludes="true" includeemptydirs="true"/>
 							</target>
 						</configuration>
 					</execution>
@@ -193,7 +196,7 @@
 				<version>2.3.2</version>
 				<configuration>
 					<archive>
-						<manifest />
+						<manifest/>
 						<manifestEntries>
 							<Created-By>Patrodyne</Created-By>
 							<Built-By>Patrodyne</Built-By>
