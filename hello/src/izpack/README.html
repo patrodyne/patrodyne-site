@@ -1,11 +1,22 @@
 <!DOCTYPE html PUBLIC "-//IETF//DTD HTML 2.0//EN">
 <html>
 	<head>
-		<title>Installer Demo</title>
+		<title>Installer: Hello</title>
 	</head>
 	<body>
-		<h1>Installer Demo</h1>
-		<p>A demonstration using IzPack to install a simple Java application.</p>
+		<h1>Install a Simple Swing Application</h1>
+
+		<p><b>On the surface</b>, this project builds a application to display
+		a simple salutation. As such, the application can be used as a starting
+		point for any Swing project. It uses one class to launch the
+		application and another to start the GUI. The launcher limits its
+		imports to the standard classloader but the GUI or other classes may
+		use packages loaded by the Java Extension Mechanism. In the event that
+		the extension path is not present, the launcher can catch the exception
+		and display a message dialog.</p>
+		
+		<p><b>Under the surface</b>, this project is actually about creating an
+		<em>IzPack</em> installer for this or any project.</p>
 	</body>
 </html>
 <!-- vi:set tabstop=4 hardtabs=4 shiftwidth=4: -->

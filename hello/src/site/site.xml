@@ -42,9 +42,7 @@
 		</links>
 
 		<menu name="Overview">
-			<item name="Introduction" href="index.html" collapse="true">
-				<item name="Todo" href="Todo.html"/>
-			</item>
+			<item name="Introduction" href="index.html" collapse="false"/>
 			<item name="Demonstration" href="Demonstration.html" collapse="true">
 				<item name="Configuration" href="Demonstration.html#Configuration">
 					<item name="Installer" href="Demonstration.html#Installer"/>
