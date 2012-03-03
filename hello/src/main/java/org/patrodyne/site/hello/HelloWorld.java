@@ -27,6 +27,8 @@ import javax.swing.JTextArea;
  */
 public class HelloWorld
 {
+	protected static final String SALUTATION = "Hello";
+	
 	/**
 	 * Launch the application. An optional user name can be specified as the
 	 * first argument; otherwise, the system user name is used. Throwables are
@@ -55,11 +57,12 @@ public class HelloWorld
 	 */
 	protected static String helloUser()
 	{
-		String helloUser = "Hello World";
+		String helloUser = SALUTATION + " World";
 		String userName = System.getProperty("user.name");
 		if (userName != null && !userName.isEmpty())
 		{
-			helloUser = "Hello ";
+			helloUser = SALUTATION;
+			helloUser += " ";
 			helloUser += userName.substring(0, 1).toUpperCase();
 			helloUser += userName.substring(1).toLowerCase();
 		}
