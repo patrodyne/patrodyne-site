@@ -14,6 +14,7 @@
 	<version>1.0.3-SNAPSHOT</version>
 
 	<properties>
+		<color.scheme>ColorScheme-F6D09C.properties</color.scheme>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<patrodyne.home>${basedir}/../../patrodyne.github.com</patrodyne.home>
 		<site.home>${patrodyne.home}/sites/site-hello</site.home>
@@ -111,6 +112,13 @@
 
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-report-plugin</artifactId>
+					<version>2.6</version>
+				</plugin>
+
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>2.3.2</version>
 				</plugin>
@@ -186,8 +194,16 @@
 						<plugin>
 							<groupId>org.apache.maven.plugins</groupId>
 							<artifactId>maven-javadoc-plugin</artifactId>
+							<configuration>
+								<header>&lt;a href='${project.url}' target='_top'&gt;${project.name}&lt;/a&gt;</header>
+							</configuration>
 						</plugin>
 						
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-surefire-report-plugin</artifactId>
+						</plugin>
+
 						<plugin>
 							<groupId>org.apache.maven.plugins</groupId>
 							<artifactId>maven-changelog-plugin</artifactId>
@@ -210,12 +226,17 @@
 							<target>
 								<copy file="src/site/templates/css/site.css" toFile="${site.home}/css/site.css" overwrite="true">
 									<filterset>
-										<filtersfile file="src/site/properties/css/ColorScheme-F6D09C.properties" />
+										<filtersfile file="src/site/properties/css/${color.scheme}" />
 									</filterset>
 								</copy>
 								<copy file="src/site/templates/css/apidocs.css" toFile="${site.home}/apidocs/stylesheet.css" overwrite="true">
 									<filterset>
-										<filtersfile file="src/site/properties/css/ColorScheme-F6D09C.properties" />
+										<filtersfile file="src/site/properties/css/${color.scheme}" />
+									</filterset>
+								</copy>
+								<copy file="src/site/templates/css/apidocs.css" toFile="${site.home}/testapidocs/stylesheet.css" overwrite="true">
+									<filterset>
+										<filtersfile file="src/site/properties/css/${color.scheme}" />
 									</filterset>
 								</copy>
 							</target>

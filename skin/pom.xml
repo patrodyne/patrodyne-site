@@ -14,6 +14,7 @@
 	<version>1.0.3-SNAPSHOT</version>
 
 	<properties>
+		<color.scheme>ColorScheme-F6D09C.properties</color.scheme>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<patrodyne.home>${basedir}/../../patrodyne.github.com</patrodyne.home>
 		<site.home>${patrodyne.home}/sites/site-skin</site.home>
@@ -140,7 +141,7 @@
 							<target>
 								<copy file="src/site/templates/css/site.css" toFile="${site.home}/css/site.css" overwrite="true">
 									<filterset>
-										<filtersfile file="src/site/properties/css/ColorScheme-F6D09C.properties" />
+										<filtersfile file="src/site/properties/css/${color.scheme}" />
 									</filterset>
 								</copy>
 							</target>

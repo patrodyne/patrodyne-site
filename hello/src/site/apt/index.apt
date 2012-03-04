@@ -1,6 +1,6 @@
 Install a Simple Swing Application
 
-	<<On the surface>>, this project builds a application to display a simple
+	<<On the surface>>, this project builds an application to display a simple
 	salutation. As such, the application can be used as a starting point for any
 	Swing project. It uses one class to launch the application and another to
 	start the GUI. The launcher limits its imports to the standard classloader but

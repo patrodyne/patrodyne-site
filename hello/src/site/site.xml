@@ -9,7 +9,7 @@
 	<skin>
 		<groupId>org.patrodyne</groupId>
 		<artifactId>patrodyne-site-skin</artifactId>
-		<version>1.0.2-SNAPSHOT</version>
+		<version>1.0.2</version>
 	</skin>
 
 	<bannerLeft>
@@ -74,6 +74,12 @@
 			<item name="FAQ" href="faq.html"/>
 		</menu>
 
+		<menu name="Download">
+			<item name="Install" href="install.jnlp"/>
+			<item name="Artifacts" href="http://search.maven.org/#search|ga|1|a%3A%22patrodyne-site-hello%22"/>
+			<item name="Tarball" href="https://github.com/patrodyne/patrodyne-site/tarball/master"/>
+			<item name="Zipball" href="https://github.com/patrodyne/patrodyne-site/zipball/master"/>
+		</menu>
 		<menu ref="reports"/>
 
 		<menu name="Powered By"/>
