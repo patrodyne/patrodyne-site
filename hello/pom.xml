@@ -11,7 +11,7 @@
 	<groupId>org.patrodyne</groupId>
 	<artifactId>patrodyne-site-hello</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.2-SNAPSHOT</version>
+	<version>1.0.2</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -259,8 +259,8 @@
 								<copy todir="${izpack.target}">
 									<fileset dir="${izpack.source}" />
 								</copy>
-								<mkdir dir="${izpack.target}/${extdir}"/>
-								<mkdir dir="${izpack.target}/${logdir}"/>
+								<mkdir dir="${izpack.target}/${extdir}" />
+								<mkdir dir="${izpack.target}/${logdir}" />
 							</target>
 						</configuration>
 					</execution>
