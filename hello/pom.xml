@@ -259,6 +259,8 @@
 								<copy todir="${izpack.target}">
 									<fileset dir="${izpack.source}" />
 								</copy>
+								<mkdir dir="${izpack.target}/${extdir}"/>
+								<mkdir dir="${izpack.target}/${logdir}"/>
 							</target>
 						</configuration>
 					</execution>
@@ -273,28 +275,28 @@
 							<target>
 								<!-- Organize dependencies into logger packs -->
 								<move todir="${izpack.target}/packs/logger">
-									<fileset dir="${izpack.target}/lib">
+									<fileset dir="${izpack.target}/${libdir}">
 										<include name="slf4j-api*" />
 									</fileset>
 								</move>
 								<move todir="${izpack.target}/packs/logger/logback">
-									<fileset dir="${izpack.target}/lib">
+									<fileset dir="${izpack.target}/${libdir}">
 										<include name="logback*" />
 									</fileset>
 								</move>
 								<move todir="${izpack.target}/packs/logger/log4j">
-									<fileset dir="${izpack.target}/lib">
+									<fileset dir="${izpack.target}/${libdir}">
 										<include name="log4j*" />
 										<include name="slf4j-log4j*" />
 									</fileset>
 								</move>
 								<move todir="${izpack.target}/packs/logger/jul">
-									<fileset dir="${izpack.target}/lib">
+									<fileset dir="${izpack.target}/${libdir}">
 										<include name="slf4j-jdk14*" />
 									</fileset>
 								</move>
 								<move todir="${izpack.target}/packs/logger/simple">
-									<fileset dir="${izpack.target}/lib">
+									<fileset dir="${izpack.target}/${libdir}">
 										<include name="slf4j-simple*" />
 									</fileset>
 								</move>
