@@ -1,9 +1,5 @@
 <?xml version="1.0"?>
-<project 
-	xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -15,7 +11,7 @@
 	<groupId>org.patrodyne</groupId>
 	<artifactId>patrodyne-site-hello</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.1</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -212,22 +208,14 @@
 						</goals>
 						<configuration>
 							<target>
-								<copy
-									file="src/site/templates/css/site.css"
-									toFile="${site.home}/css/site.css"
-									overwrite="true"
-								>
+								<copy file="src/site/templates/css/site.css" toFile="${site.home}/css/site.css" overwrite="true">
 									<filterset>
-										<filtersfile file="src/site/properties/css/ColorScheme-F6D09C.properties"/>
+										<filtersfile file="src/site/properties/css/ColorScheme-F6D09C.properties" />
 									</filterset>
 								</copy>
-								<copy
-									file="src/site/templates/css/apidocs.css"
-									toFile="${site.home}/apidocs/stylesheet.css"
-									overwrite="true"
-								>
+								<copy file="src/site/templates/css/apidocs.css" toFile="${site.home}/apidocs/stylesheet.css" overwrite="true">
 									<filterset>
-										<filtersfile file="src/site/properties/css/ColorScheme-F6D09C.properties"/>
+										<filtersfile file="src/site/properties/css/ColorScheme-F6D09C.properties" />
 									</filterset>
 								</copy>
 							</target>
@@ -242,7 +230,7 @@
 						</goals>
 						<configuration>
 							<target>
-								<fixcrlf srcdir="${site.home}" includes="**/*.html" eol="lf"/>
+								<fixcrlf srcdir="${site.home}" includes="**/*.html" eol="lf" />
 							</target>
 						</configuration>
 					</execution>
@@ -255,7 +243,7 @@
 						</goals>
 						<configuration>
 							<target>
-								<delete dir="${site.home}" defaultexcludes="true" includeemptydirs="true"/>
+								<delete dir="${site.home}" defaultexcludes="true" includeemptydirs="true" />
 							</target>
 						</configuration>
 					</execution>
@@ -269,7 +257,7 @@
 						<configuration>
 							<target>
 								<copy todir="${izpack.target}">
-									<fileset dir="${izpack.source}"/>
+									<fileset dir="${izpack.source}" />
 								</copy>
 							</target>
 						</configuration>
@@ -286,28 +274,28 @@
 								<!-- Organize dependencies into logger packs -->
 								<move todir="${izpack.target}/packs/logger">
 									<fileset dir="${izpack.target}/lib">
-										<include name="slf4j-api*"/>
+										<include name="slf4j-api*" />
 									</fileset>
 								</move>
 								<move todir="${izpack.target}/packs/logger/logback">
 									<fileset dir="${izpack.target}/lib">
-										<include name="logback*"/>
+										<include name="logback*" />
 									</fileset>
 								</move>
 								<move todir="${izpack.target}/packs/logger/log4j">
 									<fileset dir="${izpack.target}/lib">
-										<include name="log4j*"/>
-										<include name="slf4j-log4j*"/>
+										<include name="log4j*" />
+										<include name="slf4j-log4j*" />
 									</fileset>
 								</move>
 								<move todir="${izpack.target}/packs/logger/jul">
 									<fileset dir="${izpack.target}/lib">
-										<include name="slf4j-jdk14*"/>
+										<include name="slf4j-jdk14*" />
 									</fileset>
 								</move>
 								<move todir="${izpack.target}/packs/logger/simple">
 									<fileset dir="${izpack.target}/lib">
-										<include name="slf4j-simple*"/>
+										<include name="slf4j-simple*" />
 									</fileset>
 								</move>
 							</target>
