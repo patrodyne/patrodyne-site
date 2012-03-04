@@ -11,7 +11,7 @@
 	<groupId>org.patrodyne</groupId>
 	<artifactId>patrodyne-site-hello</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.2</version>
+	<version>1.0.3-SNAPSHOT</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
