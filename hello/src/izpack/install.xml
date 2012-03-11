@@ -11,6 +11,7 @@
 		<url>${project.url}</url>
 		<javaversion>1.6</javaversion>
 		<requiresjdk>no</requiresjdk>
+		<run-privileged condition="izpack.windowsinstall|izpack.macinstall"/>
 	</info>
 
 	<variables>
