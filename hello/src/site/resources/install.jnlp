@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jnlp spec="1.0+" codebase="http://repo1.maven.org/maven2/org/patrodyne/patrodyne-site-hello/1.0.3">
+<jnlp spec="1.0+" codebase="http://repo1.maven.org/maven2/org/patrodyne/patrodyne-site-hello/1.0.4">
 
 	<information>
 		<title>Patrodyne Site Hello Installer</title>
@@ -15,7 +15,7 @@
 
 	<resources>
 		<j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-		<jar href="patrodyne-site-hello-1.0.3-install.jar"/>
+		<jar href="patrodyne-site-hello-1.0.4-install.jar"/>
 	</resources>
 
 	<application-desc

@@ -4,14 +4,12 @@
 	<info>
 		<appname>${project.name}</appname>
 		<appversion>${project.version}</appversion>
-		<appsubpath>Patrodyne/${project.artifactId}/${project.version}</appsubpath>
 		<authors>
 			<author name="Patrodyne" email="rick.osullivan@patrodyne.org" />
 		</authors>
 		<url>${project.url}</url>
 		<javaversion>1.6</javaversion>
 		<requiresjdk>no</requiresjdk>
-		<run-privileged condition="izpack.windowsinstall|izpack.macinstall"/>
 	</info>
 
 	<variables>
@@ -20,6 +18,7 @@
 		<variable name="ICN_DIR" value="${icndir}"/>
 		<variable name="LIB_DIR" value="${libdir}"/>
 		<variable name="LOG_DIR" value="${logdir}"/>
+		<variable name="SUB_DIR" value="Patrodyne/${project.artifactId}/${project.version}"/>
 		<variable name="FINAL_NAME" value="${project.build.finalName}"/>
 	</variables>
 
@@ -66,6 +65,7 @@
 	</locale>
 	
 	<resources>
+		<res id="TargetPanel.dir" src="InstallPath.txt" parse="yes" />
 		<res id="Installer.image" src="InstallerLeft.png" />
 		<res id="Unix_shortcutSpec.xml" src="linux_shortcuts.xml" />
 		<res id="shortcutSpec.xml" src="winos_shortcuts.xml" />
