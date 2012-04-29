@@ -123,12 +123,13 @@
 							<reportSets>
 								<reportSet>
 									<reports>
-										<report>issue-tracking</report>
-										<report>license</report>
-										<report>plugin-management</report>
-										<report>plugins</report>
-										<report>scm</report>
 										<report>summary</report>
+										<report>issue-tracking</report>
+										<report>scm</report>
+										<report>dependencies</report>
+										<report>plugins</report>
+										<report>project-team</report>
+										<report>license</report>
 									</reports>
 								</reportSet>
 							</reportSets>
@@ -147,6 +148,19 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
+					<execution>
+						<id>CleanSite</id>
+						<phase>pre-site</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<delete dir="${site.home}" defaultexcludes="true" includeemptydirs="true"/>
+							</target>
+						</configuration>
+					</execution>
+
 					<execution>
 						<id>FilterSite</id>
 						<phase>site</phase>
@@ -177,19 +191,6 @@
 						<configuration>
 							<target>
 								<fixcrlf srcdir="${site.home}" includes="**/*.html" eol="lf"/>
-							</target>
-						</configuration>
-					</execution>
-
-					<execution>
-						<id>CleanSite</id>
-						<phase>clean</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<target>
-								<delete dir="${site.home}" defaultexcludes="true" includeemptydirs="true"/>
 							</target>
 						</configuration>
 					</execution>

@@ -74,6 +74,11 @@
 			<item name="FAQ" href="faq.html"/>
 		</menu>
 
+		<menu name="Java">
+			<item name="Test" href="http://java.com/en/download/testjava.jsp"/>
+			<item name="Verify" href="http://java.com/en/download/installed.jsp"/>
+		</menu>
+		
 		<menu name="Download">
 			<item name="Install" href="install.jnlp"/>
 			<item name="Artifacts" href="http://search.maven.org/#search|ga|1|a%3A%22patrodyne-site-hello%22"/>

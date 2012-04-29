@@ -1,4 +1,4 @@
-// PatroDyne: Patron Supported Dynamic Web Applications
+// PatroDyne: Patron Supported Dynamic Executables, http://patrodyne.org
 // Released under LGPL license. See terms at http://www.gnu.org.
 package org.patrodyne.site.hello;
 
