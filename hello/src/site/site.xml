@@ -80,7 +80,7 @@
 		</menu>
 		
 		<menu name="Download">
-			<item name="Install" href="install.jnlp"/>
+			<item name="Install" href="Patrodyne-Site-Hello.jnlp"/>
 			<item name="Artifacts" href="http://search.maven.org/#search|ga|1|a%3A%22patrodyne-site-hello%22"/>
 			<item name="Tarball" href="https://github.com/patrodyne/patrodyne-site/tarball/master"/>
 			<item name="Zipball" href="https://github.com/patrodyne/patrodyne-site/zipball/master"/>
